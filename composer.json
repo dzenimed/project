@@ -1,0 +1,12 @@
+{
+    "name": "ibu/recipebook",
+    "description": "Online recipe book used to review other peoples recipes and submit recipes of your own",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "dzenimed",
+            "email": "dzenana.mededovic@gmail.com"
+        }
+    ],
+    "require": {}
+}
