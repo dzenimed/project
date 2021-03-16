@@ -8,7 +8,7 @@ class  UserDao extends BaseDao{
   }
 
   public function getUser_by_id($id){
-    return $this->query_unique("SELECT * FROM mydb.user WHERE id = :id",["id"=>$id]);
+    return $this->query_unique("SELECT * FROM mydb.user WHERE user_id = :id",["id"=>$id]);
   }
 
   public function addUser($user){

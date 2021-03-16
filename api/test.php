@@ -11,7 +11,7 @@ $user_dao = new UserDao();
 //$user = $user_dao -> getUser_by_email("emma.lowrey@gmail.com");
 
 
-//$user = $user_dao->getUser_by_id(1);
+// $user = $user_dao->getUser_by_id(2);
 
 $user = [
   "username" => "Joe Key",
