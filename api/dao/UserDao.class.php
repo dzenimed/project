@@ -20,16 +20,11 @@ class  UserDao extends BaseDao{
   }
 
   public function updateUser($id,$user){
-    $query = "UPDATE user SET";
-    foreach ($user as $name => $value) {
-      $query .= $name ."= :".$name. ", ";"
-    }
-    $query = substr($query, 0 -2);
-    $query .=" WHERE id =: id";
+    $this->update("user", $id, $user);
+  }
 
-    $stmt= $this->connection->prepare($query);
-    $user['id'] = $id;
-    $stmt->execute($user);
+  public function updateUser_byEmail($email,$user){
+    $this->update("user", $id, $user, "email");
   }
 }
 ?>
