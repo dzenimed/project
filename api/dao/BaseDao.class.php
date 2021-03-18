@@ -16,10 +16,26 @@ class BaseDao {
     }
   }
 
-  public function insert(){
-
+  public function insert($table, $entity){
+   $query = "INSERT INTO ${table} (";
+   foreach ($entity as $column => $value) {
+      $query .=$column.",";
+    }
+    $query =substr($query, 0, -2);
+    $query .=") VALUES (";
+      foreach ($entity as $column => $value) {
+        $query .=$column.", ";
+      }
+      $query = substr($query, 0, -2);
+      $query .=")";
+      echo $query;
+  $stmt= $this->connection->prepare($query);
+  $stmt->execute($entity); //sql injection prevention
+  $entity['id'] = $this->connection->lastInsertId();
+  return $entity;
   }
 
+// Full or incremental update in any table
   public function update($table, $id, $entity, $id_column="id"){
     $query = "UPDATE ${table} SET";
     foreach ($entity as $name => $value) {
