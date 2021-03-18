@@ -13,13 +13,19 @@ $user_dao = new UserDao();
 
 // $user = $user_dao->getUser_by_id(2);
 
-$user1 = [
+/* $user1 = [
   "username" => "Joe Blue",
   "email"=>"joe.blue@live.com",
   "password"=>"key1112",
   "account_id"=>3
-];
+]; */
 //$user = $user_dao->addUser($user1);
+
+$user1 = [
+  "username" => "Joe Blue",
+  "email"=>"joe.blue@live.com",
+  "password"=>"key12"
+];
 
 $user = $user_dao->updateUser(3, $user1);
 
