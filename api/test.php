@@ -13,14 +13,14 @@ $user_dao = new UserDao();
 
 // $user = $user_dao->getUser_by_id(2);
 
-$user = [
-  "username" => "Joe Key",
-  "email"=>"joe.key@gmail.com",
+$user1 = [
+  "username" => "Joe Blue",
+  "email"=>"joe.blue@gmail.com",
   "password"=>"key111",
   "account_id"=>3
 ];
-$user_dao->addUser($user);
+$user = $user_dao->addUser($user1);
 
 
-print_r($user);
+print_r($user1);
 ?>
