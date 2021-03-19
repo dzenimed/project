@@ -6,9 +6,6 @@ class  RecipeCreator extends BaseDao{
     parent::__construct("recipeCreators");
   }
 
-public function get_all_creators(){
-  return $this->query("SELECT * FROM recipeCreators", []);
-}
 
 }
 ?>
