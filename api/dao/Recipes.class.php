@@ -12,7 +12,7 @@ class  Recipes extends BaseDao{
   }
 
   public function update_recipe($id, $recipe){
-      $this->update("Recipe", $id, $recipe);
+      $this->update("Recipe", $id, $recipe); // needs work
   }
 }
 }
