@@ -41,7 +41,7 @@ $dao = new AccountDao();
 // $account = $dao->get_account_by_id();
 //$account = $dao->updateAccount(1, ["name"=>"StephanyPappas"]);
 //$accounts=$dao->getAllAccounts();
-$dao->addAccount([
+$dao->add([
   "name"=> "Green Hosting",
   "created_at"=> date("Y-m-d H:i:s");
 ]);
