@@ -65,11 +65,19 @@ $dao->update(1, [
 
 $recipe=$dao->get_by_id(1); */
 
-$dao2=new RecipeCreator();
+/* $dao2=new RecipeCreator();
 $creator = [
 
 ];
 $creator=$dao2->get_all_creators();
 
-print_r($recipe);
+print_r($recipe); */
+
+$dao=new AccountDao();
+for($i=0; $i<10; $i++){
+  $dap->add([
+    "name" => base64_encode(random_bytes(10)),
+    "created_at" => date("Y-m-d H:i:s")
+  ]);
+}
 ?>
