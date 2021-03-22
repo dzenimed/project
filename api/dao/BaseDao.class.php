@@ -46,7 +46,7 @@ class BaseDao {
 
 // Full or incremental update in any table
   protected function executeUpdate($table, $id, $entity, $id_column="id"){
-    $query = "UPDATE ${table} SET";
+    $query = "UPDATE ${table} SET ";
     foreach ($entity as $name => $value) {
       $query .= $name ."= :". $name. ", ";
     }
@@ -78,7 +78,7 @@ class BaseDao {
   }
 
   public function get_by_id($id){
-    return $this->query_unique("SELECT * FROM".$this->table."WHERE id=:id", ["id" => $id]);
+    return $this->query_unique("SELECT * FROM ".$this->table." WHERE id=:id", ["id" => $id]);
   }
 
   public function get_all($offset = 0, $limit = 25){
