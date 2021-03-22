@@ -28,12 +28,12 @@ class BaseDao {
   protected function insert($table, $entity){
    $query = "INSERT INTO ${table} (";
    foreach ($entity as $column => $value) {
-      $query .=$column.",";
+      $query .=$column.", ";
     }
     $query =substr($query, 0, -2);
     $query .=") VALUES (";
       foreach ($entity as $column => $value) {
-        $query .=$column.", ";
+        $query .= ":".$column.", ";
       }
       $query = substr($query, 0, -2);
       $query .=")";
@@ -70,7 +70,7 @@ class BaseDao {
   }
 
   public function add($entity){
-    return $this>insert($this->table, $entity);
+    return $this->insert($this->table, $entity);
   }
 
   public function update($id, $entity){

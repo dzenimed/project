@@ -14,14 +14,15 @@ require_once dirname(__FILE__)."/dao/RecipesDao.class.php";
 
 
 // $user = $user_dao->getUser_by_id(2);
-
-/* $user1 = [
+/*
+ $user1 = [
   "username" => "Joe Blue",
   "email"=>"joe.blue@live.com",
   "password"=>"key1112",
   "account_id"=>3
-]; */
-//$user = $user_dao->addUser($user1);
+];
+$user = $user_dao->add($user1);
+print_r($user1); */
 
 /* $user1 = [
   "username" => "Joe Blue",
@@ -36,7 +37,16 @@ require_once dirname(__FILE__)."/dao/RecipesDao.class.php";
 $user = $user_dao->updateUser_byEmail("joe.blue@live.com", $user1);
 
 print_r($user1); */
-// $dao = new AccountDao();
+/*
+$dao = new AccountDao();
+$account = [
+  "username" => "Lola Bola",
+  "created_at" => date("Y-m-d H:i:s"),
+  "status" => "BLOCKED"
+];
+$account = $dao->add($account);
+print_r($account); */
+
 // $account = $dao->getAllAccounts();
 // $account = $dao->get_account_by_id();
 //$account = $dao->updateAccount(1, ["name"=>"StephanyPappas"]);
@@ -45,6 +55,7 @@ print_r($user1); */
   "name"=> "Green Hosting",
   "created_at"=> date("Y-m-d H:i:s");
 ]);
+
 $accounts=$dao->getAllAccounts();
 
 print_r($account);
@@ -71,13 +82,27 @@ $creator = [
 ];
 $creator=$dao2->get_all_creators();
 
-print_r($recipe); */
-
+print_r($recipe);
+*/
+/*
 $dao=new AccountDao();
 for($i=0; $i<10; $i++){
   $dap->add([
     "name" => base64_encode(random_bytes(10)),
     "created_at" => date("Y-m-d H:i:s")
   ]);
+*/
+/*
+$dao=new AccountDao();
+for($i=0; $i<10; $i++){
+  $dao->add([
+    "username" => base64_encode(random_bytes(10)),
+    "created_at" => date("Y-m-d H:i:s"),
+    "status" => "ACTIVE"
+  ]);
+*/
+$dao=new AccountDao();
+$accounts =$dao->get_all($_GET['offset'], $_GET['limit']);
+echo json_encode($accounts, JSON_PRETTY PRINT);
 }
 ?>
