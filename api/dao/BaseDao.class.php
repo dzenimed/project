@@ -19,7 +19,6 @@ class BaseDao {
 
       $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      // echo "Connected successfully...";
     } catch(PDOException $e) {
       throw $e;
     }
@@ -35,6 +34,19 @@ class BaseDao {
     // TODO: investigate SQL injection
    //$this->connection->quote(substr($order, 1));
    return [$order_column, $order_direction];
+  }
+
+  public function beginTransaction(){
+    $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+    $this->connection->beginTransaction();
+  }
+  public function commit(){
+    $this->connection->commit();
+    $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
+  }
+  public function rollBack(){
+    $this->connection->rollBack();
+    $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
   }
 
   protected function insert($table, $entity){

@@ -13,27 +13,30 @@ class UserService extends BaseService{
 
   public function register($user){
     if(!isset($user['account'])) throw new Exception ("Account field is required");
-    try{
-    $account = $this->accountDao->add([
-      "username" => $user['account'],
-      "created_at" => date(Config::DATE_FORMAT),
-      "status" => "PENDING"
-    ]);
 
-    $user = parent::add([
-      "account_id" => $account['id'],
-      "name" => $user['name'],
-      "email" => $user['email'],
-      "password" => $user['password'],
-      "status" => "PENDING",
-      "role" => "USER",
-      "created_at" => date(Config::DATE_FORMAT),
-      "token" => md5(random_bytes(16))
-    ]);
-    // commit here
-  }catch (Exception $e){
+    try{
+      $this->dao->beginTransaction();
+      $account = $this->accountDao->add([
+        "username" => $user['account'],
+        "created_at" => date(Config::DATE_FORMAT),
+        "status" => "PENDING"
+      ]);
+
+      $user = parent::add([
+        "account_id" => $account['id'],
+        "name" => $user['name'],
+        "email" => $user['email'],
+        "password" => $user['password'],
+        "status" => "PENDING",
+        "role" => "USER",
+        "created_at" => date(Config::DATE_FORMAT),
+        "token" => md5(random_bytes(16))
+      ]);
+      $this->dao->commit();
+    }catch (Exception $e){
+      $this->dao->rollBack();
     throw $e;
-  }
+    }
   // TODO: send email with some token
     return $user;
   }
