@@ -33,9 +33,13 @@ class UserService extends BaseService{
         "token" => md5(random_bytes(16))
       ]);
       $this->dao->commit();
-    }catch (Exception $e){
+    } catch (Exception $e){
       $this->dao->rollBack();
-    throw $e;
+      if(str_contains($e->getMessage(), 'accounts.username_UNIQUE')){
+        throw new Exception("Account with the same email already exists in the database", 400, $e);
+      }else{
+        throw $e;
+      }
     }
   // TODO: send email with some token
     return $user;
