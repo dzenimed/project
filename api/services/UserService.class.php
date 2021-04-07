@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/BaseService.class.php';
-require_once dirname(__FILE__).'/../api/dao/UserDao.class.php';
-require_once dirname(__FILE__).'/../api/dao/AccountDao.class.php';
+require_once dirname(__FILE__).'/../dao/UserDao.class.php';
+require_once dirname(__FILE__).'/../dao/AccountDao.class.php';
 
 class UserService extends BaseService{
   private $accountDao;
@@ -33,7 +33,7 @@ class UserService extends BaseService{
         "token" => md5(random_bytes(16))
       ]);
       $this->dao->commit();
-    } catch (Exception $e){
+    } catch (\Exception $e){
       $this->dao->rollBack();
       if(str_contains($e->getMessage(), 'accounts.username_UNIQUE')){
         throw new Exception("Account with the same email already exists in the database", 400, $e);
