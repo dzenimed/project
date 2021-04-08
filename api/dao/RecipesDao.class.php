@@ -11,7 +11,8 @@ class  RecipesDao extends BaseDao{
     return $this->query_unique("SELECT * FROM recipes WHERE id=:id", ["id" => $id]);
   }
 
-  public function get_recipe($recipe_name, $offset, $limit, $search){
+  public function get_recipe($recipe_name, $offset, $limit, $search, $order){
+    list($order_column, $order_direction) = self::parse_order($order);
 
     $params = ["recipe_name" => $recipe_name];
     $query = "SELECT * FROM recipes
@@ -21,6 +22,8 @@ class  RecipesDao extends BaseDao{
       $query .= "AND recipe_difficulty_level LIKE CONCAT('%', :search, '%') ";
       $params['search'] = strtolower($search);
     }
+
+    $query .="ORDER BY ${order_column} ${order_direction} ";
     $query .="LIMIT ${limit} OFFSET ${offset}";
 
     return $this->query($query, $params);
