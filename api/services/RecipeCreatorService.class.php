@@ -12,8 +12,8 @@ class RecipeCreatorService extends BaseService{
 public function add($recipesCreator){
   try {
     return parent::add($recipeCreator);
-  } catch (\Exception $e) {
-    if(str_contains($e->getMessage(), 'recipecategory.number_of_submission_UNIQUE')){
+  } catch (\Exception $e) {                      // needed ?
+    if(str_contains($e->getMessage(), 'recipecreator.number_of_submission_UNIQUE')){
       throw new Exception("Recipe was already created by same creator", 400, $e);
     }else{
       throw $e;
@@ -21,7 +21,10 @@ public function add($recipesCreator){
     print_r($e);
     die;
   }
+}
 
+public function get_recipeCreator($number_of_submission, $offset, $limit){
+  return $this->dao->get_recipeCreator($number_of_submission, $offset, $limit);
 }
 
 }

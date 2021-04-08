@@ -9,8 +9,8 @@ class RecipeService extends BaseService{
     $this->dao = new RecipesDao();
   }
 
-  public function get_recipe($account_id, $offset, $limit){
-    return $this->dao->get_recipe($account_id, $offset, $limit);
+  public function get_recipe($recipe_name, $offset, $limit, $search){
+    return $this->dao->get_recipe($recipe_name, $offset, $limit, $search);
   }
 
 /*
