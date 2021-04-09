@@ -8,7 +8,6 @@
  * )
  */
 
-
 /**
  * @OA\Get(path="/accounts", tags={"account"},
  *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="offset", default=0, description="Offset for pagination"),
@@ -28,9 +27,9 @@ Flight::route('GET /accounts', function(){
 });
 
 /**
- * @OA\Get(path="/accounts/{id}",
- *     @OA\Parameter(@OA\Schema(type="integer"), in="path", allowReserved=true, name="id", example=1),
- *     @OA\Response(response="200", description="List accounts from database")
+ * @OA\Get(path="/accounts/{id}", tags={"account"},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1, description="Id of account"),
+ *     @OA\Response(response="200", description="Fetch individual account")
  * )
  */
 Flight::route('GET /accounts/@id', function($id){
@@ -38,8 +37,16 @@ Flight::route('GET /accounts/@id', function($id){
 });
 
 /**
- * @OA\Post(path="/accounts",
- *     @OA\Response(response="200", description="Add account")
+*  @OA\Post(path="/accounts", tags={"account"},
+*   @OA\RequestBody(description="Basic account info", required=true,
+*     @OA\MediaType(mediaType="application/json",
+*    		@OA\Schema(
+*    		  @OA\Property(property="username", requierd=true, type="string", example="My Test Account", description="Name of the account"),
+*    				@OA\Property(property="status", type="string", example="ACTIVE", description="Status of account")
+*         )
+*     )
+*      ),
+ *  @OA\Response(response="200", description="Account that has been added into database with ID assigned.")
  * )
  */
 Flight::route('POST /accounts', function(){
@@ -48,8 +55,16 @@ Flight::route('POST /accounts', function(){
 });
 
 /**
- * @OA\Put(path="/accounts/{id}",
- *     @OA\Parameter(@OA\Schema(type="integer"), in="path", allowReserved=true, name="id", example=1),
+ * @OA\Put(path="/accounts/{id}", tags={"account"},
+ *  @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1),
+ *   @OA\RequestBody(description="Basic account info that is going to be updated", required=true,
+ *     @OA\MediaType(mediaType="application/json",
+ *    		@OA\Schema(
+ *    		  @OA\Property(property="name", requierd=true, type="string", example="My Test Account2", description="Name of the account"),
+ *    				@OA\Property(property="status", type="string", example="ACTIVE", description="Status of account")
+ *         )
+ *     )
+ *      ),
  *     @OA\Response(response="200", description="Update account based on parameter")
  * )
  */

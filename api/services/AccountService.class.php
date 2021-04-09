@@ -20,6 +20,7 @@ class AccountService extends BaseService{
 public function add($account){
   //validation of account data
   if(!isset($account['username'])) throw new Exception("Username is missing.");
+  $account['created_at'] = date(Config::DATE_FORMAT);
   return parent::add($account);
 }
 
