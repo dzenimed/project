@@ -3,12 +3,16 @@ require_once dirname(__FILE__).'/BaseService.class.php';
 require_once dirname(__FILE__).'/../dao/UserDao.class.php';
 require_once dirname(__FILE__).'/../dao/AccountDao.class.php';
 
+require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
+
 class UserService extends BaseService{
   private $accountDao;
+  private $smtpClient;
 
   public function __construct(){
     $this->dao = new UserDao();
     $this->accountDao = new AccountDao();
+    $this->smtpClient = new SMTPClient();
   }
 
   public function register($user){
@@ -41,7 +45,8 @@ class UserService extends BaseService{
         throw $e;
       }
     }
-  // TODO: send email with some token
+    $this->smtpClient->send_register_user_token($user);
+
     return $user;
   }
 
@@ -51,7 +56,6 @@ class UserService extends BaseService{
 
     $this->dao->update($user['id'], ["status" => "ACTIVE"]);
     $this->accountDao->update($user['id'], ["status" => "ACTIVE"]);
-    // TODO send email to customer
   }
 
 }
