@@ -15,7 +15,7 @@ Flight::set('flight.log_errors', TRUE);
 /* error handling for our API
 Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode(): 500);
-}); 
+});
 */
 /* utility function for reading query parameters from URL */
 Flight::map('query', function($name, $default_value = NULL){
@@ -30,6 +30,10 @@ Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");
   header('Content-Type: application/json');
   echo $openapi->toJson();
+});
+
+Flight::route('GET /', function(){
+  Flight::redirect('/docs');
 });
 
 /* register Business Logic layer services */
