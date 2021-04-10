@@ -17,12 +17,31 @@
  */
 Flight::route('POST /users/register', function(){
   $data = Flight::request()->data->getData();
-  Flight::json(Flight::userService()->register($data));
+  Flight::userService()->register($data);
+  Flight::json(["message" => "Confirmation email has been sent. Please confirm your account."]);
 });
 
 Flight::route('GET /users/confirm/@token', function($token){
   Flight::userService()->confirm($token);
   Flight::json(["message"=>"Your account has been activated"]);
+});
+
+/**
+*  @OA\Post(path="/users/login", tags={"users"},
+*   @OA\RequestBody(description="Basic user info", required=true,
+*     @OA\MediaType(mediaType="application/json",
+*    		@OA\Schema(
+*         @OA\Property(property="email", requierd=true, type="string", example="firstlastName@gmail.com", description="Email of the user"),
+*         @OA\Property(property="password", requierd=true, type="string", example="MyPassword", description="Password of the user"),
+*         )
+*     )
+*      ),
+ *  @OA\Response(response="200", description="User logging into account")
+ * )
+ */
+Flight::route('POST /users/login', function(){
+  $data = Flight::request()->data->getData();
+  Flight::json(Flight::userService()->login($data));
 });
 
 ?>

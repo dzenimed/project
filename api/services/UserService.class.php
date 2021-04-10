@@ -30,7 +30,7 @@ class UserService extends BaseService{
         "account_id" => $account['id'],
         "name" => $user['name'],
         "email" => $user['email'],
-        "password" => $user['password'],
+        "password" => md5($user['password']),
         "status" => "PENDING",
         "role" => "USER",
         "created_at" => date(Config::DATE_FORMAT),
@@ -40,7 +40,7 @@ class UserService extends BaseService{
     } catch (\Exception $e){
       $this->dao->rollBack();
       if(str_contains($e->getMessage(), 'accounts.username_UNIQUE')){
-        throw new Exception("Account with the same email already exists in the database", 400, $e);
+        throw new Exception("Account with the same name already exists in the database", 400, $e);
       }else{
         throw $e;
       }
@@ -55,8 +55,23 @@ class UserService extends BaseService{
     if(!isset($user['id'])) throw Exception("Invalid token");
 
     $this->dao->update($user['id'], ["status" => "ACTIVE"]);
-    $this->accountDao->update($user['id'], ["status" => "ACTIVE"]);
+    $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
   }
+
+  public function login($user){
+  $db_user = $this->dao->getUser_by_email($user['email']);
+
+  if (!isset($db_user['id'])) throw new Exception("User doesn't exists", 400);
+
+  if ($db_user['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+
+  $account = $this->accountDao->get_by_id($db_user['account_id']);
+  if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+
+  if ($db_user['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
+
+  return $db_user;
+}
 
 }
 
