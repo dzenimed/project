@@ -81,18 +81,13 @@ public function forgot($user){
 
     if (!isset($db_user['id'])) throw new Exception("User doesn't exists", 400);
 
-    $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16))]);
-
-    $this->smtpClient->send_user_recovery_token($db_user);
-
-/*
     if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) < 300) throw new Exception("Be patient tokens is on his way", 400);
 
     // generate token - and save it to db
     $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16)), 'token_created_at' => date(Config::DATE_FORMAT)]);
-*/
+
     // send email
-    //$this->smtpClient->send_user_recovery_token($db_user);
+    $this->smtpClient->send_user_recovery_token($db_user);
   }
 
   public function reset($user){
@@ -100,13 +95,11 @@ public function forgot($user){
 
    if (!isset($db_user['id'])) throw new Exception("Invalid token", 400);
 
+   if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) > 300) throw new Exception("Token expired", 400);
+
    $this->dao->update($db_user['id'], ['password' => md5($user['password']), 'token' => NULL]);
 
-//   if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) > 300) throw new Exception("Token expired", 400);
-
-
-
-//   return $db_user;
+   return $db_user;
  }
 
 }
