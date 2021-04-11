@@ -11,7 +11,7 @@ $transport = (new Swift_SmtpTransport('smtp.mailgun.org', 587))
   ->setPassword('d671654d46809f9f8e3ce424be6a6a7a-e687bab4-69f81cc2')
 ;
 
-// Create the Mailer using your created Transport
+// Create the mailer using your created Transport
 $mailer = new Swift_Mailer($transport);
 
 // Create a message
