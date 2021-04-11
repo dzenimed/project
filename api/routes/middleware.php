@@ -4,7 +4,7 @@ Flight::before('start', function(&$params, &$output){
 
   if(Flight::request()->url == '/swagger') return TRUE;
 
-  if(str_starts_with(Flight::request()->url == '/users/')) return TRUE;
+  if(str_starts_with(Flight::request()->url, '/users/')) return TRUE;
 
   $headers = getallheaders();
   $token = @$headers['Authentication'];
