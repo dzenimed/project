@@ -45,7 +45,7 @@ Flight::route('POST /users/login', function(){
 });
 
 /**
- * @OA\Post(path="/forgot", tags={"login"}, description="Send recovery URL to users email address",
+ * @OA\Post(path="/forgot", tags={"users"}, description="Send recovery URL to users email address",
  *   @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
@@ -56,7 +56,7 @@ Flight::route('POST /users/login', function(){
  *  @OA\Response(response="200", description="Message that recovery link has been sent.")
  * )
  */
-Flight::route('POST /forgot', function(){
+Flight::route('POST /users/forgot', function(){
   $data = Flight::request()->data->getData();
   Flight::userService()->forgot($data);
   Flight::json(["message" => "Recovery link has been sent to your email"]);
@@ -64,7 +64,7 @@ Flight::route('POST /forgot', function(){
 
 
 /**
- * @OA\Post(path="/reset", tags={"login"}, description="Reset users password using recovery token",
+ * @OA\Post(path="/reset", tags={"users"}, description="Reset users password using recovery token",
  *   @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
@@ -76,7 +76,7 @@ Flight::route('POST /forgot', function(){
  *  @OA\Response(response="200", description="Message that user has changed password.")
  * )
  */
-Flight::route('POST /reset', function(){
+Flight::route('POST /users/reset', function(){
   Flight::json(Flight::jwt(Flight::userService()->reset(Flight::request()->data->getData())));
 });
 ?>
