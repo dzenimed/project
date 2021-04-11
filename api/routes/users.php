@@ -45,7 +45,7 @@ Flight::route('POST /users/login', function(){
 });
 
 /**
- * @OA\Post(path="/forgot", tags={"users"}, description="Send recovery URL to users email address",
+ * @OA\Post(path="/users/forgot", tags={"users"}, description="Send recovery URL to users email address",
  *   @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
@@ -64,7 +64,7 @@ Flight::route('POST /users/forgot', function(){
 
 
 /**
- * @OA\Post(path="/reset", tags={"users"}, description="Reset users password using recovery token",
+ * @OA\Post(path="/users/reset", tags={"users"}, description="Reset users password using recovery token",
  *   @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
