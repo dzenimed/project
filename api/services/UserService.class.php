@@ -5,6 +5,8 @@ require_once dirname(__FILE__).'/../dao/AccountDao.class.php';
 
 require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
 
+use \Firebase\JWT\JWT;
+
 class UserService extends BaseService{
   private $accountDao;
   private $smtpClient;
@@ -73,8 +75,11 @@ class UserService extends BaseService{
 
   if ($db_user['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
-  return $db_user;
+  $jwt = JWT::encode(["id" => $db_user["id"], "aid" => $db_user["account_id"], "r" => $db_user["role"]], "JWT SECRET");
+
+  return ["token" => $jwt];
 }
+
 
 public function forgot($user){
     $db_user = $this->dao->getUser_by_email($user['email']);
@@ -89,6 +94,7 @@ public function forgot($user){
     // send email
     $this->smtpClient->send_user_recovery_token($db_user);
   }
+
 
   public function reset($user){
    $db_user = $this->dao->get_user_by_token($user['token']);
