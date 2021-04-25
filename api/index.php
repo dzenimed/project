@@ -10,14 +10,12 @@ require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/RecipeService.class.php';
 require_once dirname(__FILE__).'/services/RecipeCreatorService.class.php';
 
-
 Flight::set('flight.log_errors', TRUE);
 
 /* error handling for our API */
 Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
-}); 
-
+});
 
 /* utility function for reading query parameters from URL */
 Flight::map('query', function($name, $default_value = NULL){
@@ -43,6 +41,7 @@ Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('recipeService', 'RecipeService');
 Flight::register('recipeCreatorService', 'RecipeCreatorService');
+Flight::register('recipeCategoryService', 'RecipeCategoryService');
 
 
 /* include all routes */
@@ -51,6 +50,7 @@ require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/recipes.php";
 require_once dirname(__FILE__)."/routes/recipeCreator.php";
+require_once dirname(__FILE__)."/routes/recipeCategory.php";
 
 
 Flight::start();

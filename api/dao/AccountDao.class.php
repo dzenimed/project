@@ -7,16 +7,16 @@ class  AccountDao extends BaseDao{
     parent::__construct("accounts");
   }
 
-public function get_accounts($search, $offset, $limit, $order= '-id'){
+  public function get_accounts($search, $offset, $limit, $order= '-id'){
 
-  list($order_column, $order_direction) = self::parse_order($order);
+    list($order_column, $order_direction) = self::parse_order($order);
 
-  return $this->query("SELECT * FROM accounts
-                      WHERE LOWER(username) LIKE CONCAT('%', :username, '%')
-                      ORDER BY ${order_column} ${order_direction}
-                      LIMIT ${limit} OFFSET ${offset}",
-                      ["username"=>strtolower($search)]);
-}
+    return $this->query("SELECT * FROM accounts
+                        WHERE LOWER(username) LIKE CONCAT('%', :username, '%')
+                        ORDER BY ${order_column} ${order_direction}
+                        LIMIT ${limit} OFFSET ${offset}",
+                        ["username"=>strtolower($search)]);
+  }
 
 }
 ?>

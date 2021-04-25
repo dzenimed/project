@@ -36,7 +36,7 @@ class BaseDao {
    return [$order_column, $order_direction];
   }
 
-  public function beginTransaction(){
+  public function beginTransaction(){ //change
     $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
     $this->connection->beginTransaction();
   }
