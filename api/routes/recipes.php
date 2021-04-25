@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @OA\Get(path="/user/recipes", tags={"x-user", "users"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="offset", default=0, description="Offset for pagination"),
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="limit", default=25, description="Limit for pagination"),
+ *     @OA\Parameter(@OA\Schema(type="string"), in="query", recipe_name="search", description="Search string for accounts. Case insensitive search."),
+ *     @OA\Parameter(@OA\Schema(type="string"), in="query", name="order", default="-id", description="Sorting for return elements. -column_name ascending order by column_name or +column_name descending order by column_name"),
+ *     @OA\Response(response="200", description="List accounts from database")
+ * )
+ */
 Flight::route('GET /user/recipes', function(){
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
@@ -10,7 +19,13 @@ Flight::route('GET /user/recipes', function(){
   Flight::json(Flight::recipeService()->get_recipe($recipe_name, $offset, $limit, $search, $order));
 });
 
-Flight::route('GET /recipes/@id', function($id){
+/**
+ * @OA\Get(path="/user/recipes/@id", tags={"x-user", "recipes"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of recipe"),
+ *     @OA\Response(response="200", description="Fetch individual recipe")
+ * )
+ */
+Flight::route('GET /user/recipes/@id', function($id){
     Flight::json(Flight::recipeService()->get_by_id($id));
 });
 
