@@ -1,6 +1,6 @@
 <?php
 
-Flight::route('GET /recipes', function(){
+Flight::route('GET /user/recipes', function(){
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
   $recipe_name = Flight::query('recipe_name');

@@ -68,7 +68,7 @@ class UserService extends BaseService{
 
   if (!isset($db_user['id'])) throw new Exception("User doesn't exists", 400);
 
-  if ($db_user['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+  if ($db_user['status'] != 'ACTIVE') throw new Exception("User not active", 400);
 
   $account = $this->accountDao->get_by_id($db_user['account_id']);
   if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
