@@ -7,16 +7,16 @@ class  RecipesDao extends BaseDao{
     parent::__construct("recipes");
   }
 
-  public function getRecipe_by_id($id){
-    return $this->query_unique("SELECT * FROM recipes WHERE id=:id", ["id" => $id]);
+  public function get_recipe_by_account_and_id($account_id, $id){
+    return $this->query_unique("SELECT * FROM recipes WHERE account_id = :account_id AND id = :id", ["account_id" => $account_id, "id" => $id]);
   }
 
-  public function get_recipe($recipe_name, $offset, $limit, $search, $order){
+  public function get_recipe($account_id, $offset, $limit, $search, $order){
     list($order_column, $order_direction) = self::parse_order($order);
 
-    $params = ["recipe_name" => $recipe_name];
+    $params = ["account_id" => $account_id];
     $query = "SELECT * FROM recipes
-                        WHERE LOWER(recipe_name) = :recipe_name ";
+                        WHERE LOWER(account_id) = :account_id ";
 
     if(isset($search)){
       $query .= "AND recipe_difficulty_level LIKE CONCAT('%', :search, '%') ";

@@ -13,8 +13,20 @@ class RecipeService extends BaseService{
     $this->dao = new RecipesDao();
   }
 
-  public function get_recipe($recipe_name, $offset, $limit, $search, $order){
-    return $this->dao->get_recipe($recipe_name, $offset, $limit, $search, $order);
+  public function get_recipe_by_account_and_id($account_id, $id){
+      return $this->dao->get_recipe_by_account_and_id($account_id, $id);
+  }
+
+  public function get_recipe($account_id, $offset, $limit, $search, $order){
+    return $this->dao->get_recipe($account_id, $offset, $limit, $search, $order);
+  }
+
+  public function update_recipe($user, $id, $recipe){
+    $db_recipe = $this->dao->get_by_id($id);
+    if ($db_recipe['account_id'] != $user['aid']){
+      throw new Exception("Invalid recipe", 403);
+    }
+    return $this->update($id, $recipe);
   }
 
 /*
@@ -23,12 +35,23 @@ class RecipeService extends BaseService{
   } */
 
 // add doesn't work properly, check why
-/*  public function add($recipes){
+/*  public function add($user, $recipe){ //category variable needed? or make categories according to hashtags
     try {
-      return parent::add($recipes);
+    data = parent::add([
+      "recipe_name" => $recipe['recipe_name'],
+      "recipe_difficulty_level" => "0",
+      "description" => "",
+      "ingredients_list" => "",
+      "measurements" => ,
+      "tips" => "",
+      "category_id" => $[],
+      "number_of_submission" => $user['number_of_submission'],
+      "account_id" => $user['aid']
+    ]);
+      return parent::add($data);
     } catch (\Exception $e) {            // TODO: change so same user can't create same recipe
       if(str_contains($e->getMessage(), 'recipes.recipe_name_UNIQUE')){
-        throw new Exception("Recipe was already created by same creator", 400, $e);
+        throw new Exception("Recipe with the same name was already created.", 400, $e);
       }else{
         throw $e;
       }
