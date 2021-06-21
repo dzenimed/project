@@ -87,7 +87,7 @@ Flight::route('PUT /user/recipes/@id', function($id){
 
 /**
  * @OA\Get(path="/admin/recipes", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
- *     @OA\Parameter(type="integer", in="query", name="id", default=0, description="Recipe ID"),
+ *     @OA\Parameter(type="integer", in="query", name="account_id", default=0, description="Account id"),
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="Limit for pagination"),
  *     @OA\Parameter(type="string", in="query", name="search", description="Search string for recipe. Case insensitive search."),
@@ -95,7 +95,7 @@ Flight::route('PUT /user/recipes/@id', function($id){
  *     @OA\Response(response="200", description="List email templates for user")
  * )
  */
-Flight::route('GET /admin/email_templates', function(){
+Flight::route('GET /admin/recipes', function(){
   $account_id = Flight::query('account_id');
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
