@@ -38,11 +38,10 @@ Flight::route('GET /user/recipes/@id', function($id){
 
 
 /**
-*  @OA\Post(path="/recipes/add", tags={"recipes"},
+*  @OA\Post(path="/recipes/add", tags={"recipes"}, security={{"ApiKeyAuth":{}}},
 *   @OA\RequestBody(description="Add recipe of your own", required=true,
 *     @OA\MediaType(mediaType="application/json",
 *    		@OA\Schema(
-*         @OA\Property(property="recipe", requierd=true, type="string", example="My Recipe", description="Recipe of the user"),
 *    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
 *    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
 *         @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
@@ -55,11 +54,9 @@ Flight::route('GET /user/recipes/@id', function($id){
  *  @OA\Response(response="200", description="Recipe has been created.")
  * )
  */
-Flight::route('POST /recipes/add', function(){
-  $data = Flight::request()->data->getData();
-  Flight::recipeService()->add($data);
-  Flight::json(["message" => "Recipe has been added to database."]);
-}); // needed?
+Flight::route('POST /user/recipes', function(){
+  Flight::recipeService()->add_recipe(Flight::get('user'), Flight::request()->data->getData());
+});
 
 /**
  * @OA\Put(path="/user/recipes/{id}", tags={"x-user", "recipes"}, security={{"ApiKeyAuth":{}}},

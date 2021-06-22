@@ -29,25 +29,20 @@ class RecipeService extends BaseService{
     return $this->update($id, $recipe);
   }
 
-/*
-  public function get_recipe(){
-    return $this->dao->get_all();
-  } */
-
 // add doesn't work properly, check why
-/*  public function add($user, $recipe){ //category variable needed? or make categories according to hashtags
+  public function add_recipe($user, $recipe){ //category variable needed? or make categories according to hashtags
     try {
-    data = parent::add([
+    $data =[
       "recipe_name" => $recipe['recipe_name'],
-      "recipe_difficulty_level" => "0",
-      "description" => "",
-      "ingredients_list" => "",
-      "measurements" => ,
-      "tips" => "",
-      "category_id" => $[],
+      "recipe_difficulty_level" => $recipe['recipe_difficulty_level'],
+      "description" => $recipe['description'],
+      "ingredients_list" => $recipe['ingredients_list'],
+      "measurements" => $recipe['Measurements'],
+      "tips" => $recipe['tips'],
+      "category_id" => $ [],
       "number_of_submission" => $user['number_of_submission'],
       "account_id" => $user['aid']
-    ]);
+    ];
       return parent::add($data);
     } catch (\Exception $e) {            // TODO: change so same user can't create same recipe
       if(str_contains($e->getMessage(), 'recipes.recipe_name_UNIQUE')){
@@ -58,7 +53,8 @@ class RecipeService extends BaseService{
       print_r($e);
       die;
     }
-  }*/
+  }
+
 /*
   public function add($recipe){
     if(!isset($recipe['recipecreator'])) throw new Exception ("Account field is required");

@@ -49,6 +49,8 @@ require_once dirname(__FILE__)."/routes/middleware.php";
 require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/recipes.php";
+require_once dirname(__FILE__)."/routes/feedback.php";
+
 require_once dirname(__FILE__)."/routes/recipeCreator.php";
 require_once dirname(__FILE__)."/routes/recipeCategory.php";
 
