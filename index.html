@@ -123,7 +123,7 @@
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <li><a onclick="doLogOut()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                             </li>
                         </ul>
                     </li>
@@ -273,16 +273,23 @@
           $(document).ready(function() {
             var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
 
+            // $('body').show(); if guest will be also included
 
             // run app
             app.run();
 
             if(!window.localStorage.getItem("token")){
+              // this will not be performed
               window.location = "login.html";
             }else{
               $('body').show();
             }
           });
+
+          function doLogOut(){
+            window.localStorage.clear();
+            window.location = "index.html";
+          }
         </script>
 
     </body>
