@@ -145,7 +145,7 @@
                                 <!-- /input-group -->
                             </li>
                             <li>
-                                <a href="dashboard" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                                <a href="#dashboard" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>
                             <li>
                                 <a href="#tables"><i class="fa fa-table fa-fw"></i> Tables</a>
@@ -273,10 +273,6 @@
           $(document).ready(function() {
             var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
 
-            // define routes
-            app.route({view: 'dashboard', load: 'dashboard.html' });
-            app.route({view: 'tables', load: 'tables.html' });
-            app.route({view: 'notifications', load: 'notifications.html' });
 
             // run app
             app.run();

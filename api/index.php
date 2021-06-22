@@ -14,11 +14,11 @@ require_once dirname(__FILE__).'/services/RecipeCreatorService.class.php';
 
 Flight::set('flight.log_errors', TRUE);
 
-/* error handling for our API
+// error handling for our API
 Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
-*/
+
 /* utility function for reading query parameters from URL */
 Flight::map('query', function($name, $default_value = NULL){
   $request = Flight::request();
