@@ -138,10 +138,10 @@
                         <div class="panel-body">
                             <form id="change-form" role="form">
                                 <fieldset>
-                                    <input name="token" type="hidden">
+                                    <input  id="change-password-token" name="token" type="hidden">
 
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                        <input id="change-password" class="form-control" placeholder="Password" name="password" type="password" value="">
                                     </div>
                                     <div class="form-group">
                                       <button id="change-link" onclick="doChangePassword();" class="btn btn-lg btn-success btn-block">Change Password</button>
@@ -168,8 +168,19 @@
               }else {
                 $('body').show();
               }
+              var urlParams = new URLSearchParams(window.location.search);
+              if(urlParams.has('token')){
+                $("#change-password-token").urlParams.get('token');
+                showChangePasswordForm();
+              }
           });
 
+          function showChangePasswordForm(){
+            $("#change-password-form-container").removeClass("hidden");
+            $("#login-form-container").addClass("hidden");
+            $("#register-form-container").addClass("hidden");
+            $("#forgot-form-container").addClass("hidden");
+          }
 
           function showForgotForm(){
             $("#login-form-container").addClass("hidden");
@@ -243,6 +254,22 @@
                 $("#register-form-container").addClass("hidden");
                 $("#form-alert").removeClass("hidden");
                 $("#form-alert .alert").html(error.responseJSON.message);
+              });
+            }
+
+            function doChangePassword(){
+              var change_info = {
+                "token" : $("#change-password-token").val(),
+                "password" : $("#change-password").val()
+              };
+
+              $("#change-link").prop('disabled', true);
+              $.post("http://localhost/recipeBook/api/reset", change_info).done(function(data){
+                window.localStorage.setItem("token", data.token);
+                window.location = "index.html";
+              }).fail(function(error){
+                $("#change-link").prop('disabled', false);
+                alert(error.responseJSON.message);
               });
             }
         </script>
