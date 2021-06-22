@@ -30,10 +30,11 @@ class BaseDao {
       case '+' : $order_direction = 'DESC'; break;
       default : throw new Exception("Invalid order format. First character should be either '-' or '+' "); break;
     }
-    $order_column = substr($order, 1);
-    // TODO: investigate SQL injection
-   //$this->connection->quote(substr($order, 1));
-   return [$order_column, $order_direction];
+
+    //Filter SQL injection attacks on column name
+    $order_column = trim($this->connection->quote(substr($order, 1)),"'");
+
+    return [$order_column, $order_direction];
   }
 
   public function beginTransaction(){ //change

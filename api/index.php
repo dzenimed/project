@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once dirname(__FILE__).'/services/AccountService.class.php';
 require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/RecipeService.class.php';
+require_once dirname(__FILE__).'/services/FeedbackService.class.php';
+
 require_once dirname(__FILE__).'/services/RecipeCreatorService.class.php';
 
 Flight::set('flight.log_errors', TRUE);
@@ -40,6 +42,8 @@ Flight::route('GET /', function(){
 Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('recipeService', 'RecipeService');
+Flight::register('feedbackService', 'FeedbackService');
+
 Flight::register('recipeCreatorService', 'RecipeCreatorService');
 Flight::register('recipeCategoryService', 'RecipeCategoryService');
 

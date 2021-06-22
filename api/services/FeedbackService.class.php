@@ -1,24 +1,32 @@
 <?php
 
 require_once dirname(__FILE__).'/BaseService.class.php';
-require_once dirname(__FILE__).'/../dao/RecipesDao.class.php';
-require_once dirname(__FILE__).'/../dao/RecipeCreatorDao.class.php';
-require_once dirname(__FILE__).'/../dao/RecipeCategoryDao.class.php';
+require_once dirname(__FILE__).'/../dao/FeedbackDao.class.php';
 
-class RecipeService extends BaseService{
-//  private $recipeCreatorDao = new RecipesDao();
-  protected $recipeArr=array();
+class FeedbackService extends BaseService{
 
   public function __construct(){
-    $this->dao = new RecipesDao();
+    $this->dao = new FeedbackDao();
   }
+
+  public function get_feedback($account_id, $offset, $limit, $search, $order){
+    return $this->dao->get_feedback($account_id, $offset, $limit, $search, $order);
+  }
+
+  public function add_feedback($user, $feedback){
+   try {
+     $feedback['account_id'] = $user['aid'];
+//     $feedback['recipe_id'] = $user['aid'];  add a recipe here and route
+     $feedback['created_at'] = date(Config::DATE_FORMAT);
+     return parent::add($feedback);
+   } catch (\Exception $e) {
+       throw new Exception($e->getMessage(), 400, $e);
+   }
+ }
+
 
   public function get_recipe_by_account_and_id($account_id, $id){
       return $this->dao->get_recipe_by_account_and_id($account_id, $id);
-  }
-
-  public function get_recipe($account_id, $offset, $limit, $search, $order){
-    return $this->dao->get_recipe($account_id, $offset, $limit, $search, $order);
   }
 
   public function update_recipe($user, $id, $recipe){
@@ -29,7 +37,7 @@ class RecipeService extends BaseService{
     return $this->update($id, $recipe);
   }
 
-// add doesn't work properly, check why, PARSE ERROR
+// add doesn't work properly, check why
 /*  public function add_recipe($user, $recipe){ //category variable needed? or make categories according to hashtags
     try {
     $data =[
