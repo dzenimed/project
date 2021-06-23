@@ -1,0 +1,79 @@
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Recipes</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        DataTables Advanced Tables
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="recipes-table" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Recipe Name</th>
+                                        <th>Difficulty level</th>
+                                        <th>Description</th>
+                                        <th>Ingridients List</th>
+                                        <th>Measurements</th>
+                                        <th>Tips</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
+<script type="text/JavaScript">
+
+  getRecipes();
+
+  function getRecipes(){
+
+    $.ajax({
+      url: "api/user/recipes",
+      type: "GET".
+      beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
+      success: function(data) {
+        console.log(data);
+    //});
+
+    var html = "";
+    for(var i = 0; i < data.lenght; i ++){
+      html+= '<tr class="odd>'
+          +'<td>'+data[i].id'</td>'
+          +'<td>'+data[i].recipe_name'</td>'
+          +'<td>'+data[i].recipe_difficulty_level'</td>'
+          +'<td>'+data[i].description'</td>'
+          +'<td>'+data[i].ingredients_list'</td>'
+          +'<td>'+data[i].measurements'</td>'
+          +'<td>'+data[i].tips'</td></tr>';
+    }
+    $("#recipes-table tbody").html(html);
+
+  });
+
+</script>
