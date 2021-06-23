@@ -139,11 +139,17 @@
           d.offset=d.start;
           d.limit=d.length;
           d.search = d.search.value;
-          console.log(d);
+
 
           //order in our format
           d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+          console.log(d);
         }
+      },
+      preDrawCallback: function(settings){
+        settings._iRecordsTotal = 100;
+        settings._iRecordsDisplay = 10;
+        console.log(settings);
       },
       columnns: [
       {"data":"id"},
