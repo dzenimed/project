@@ -127,6 +127,35 @@
 
   function getRecipes(){
 
+    $("#recipes-table").DataTable({
+      "processing": true,
+      "serverSide": true,
+      "ajax" : {
+        url: "api/user/recipes?order="+encodeURIComponent("+id"),
+        type: "GET",
+        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
+        dataSrc : "",
+        data: function(d){
+          d.offset=d.start;
+          d.limit=d.length;
+          d.search = d.search.value;
+          console.log(d);
+
+          //order in our format
+          d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+        }
+      },
+      columnns: [
+      {"data":"id"},
+      {"data":"recipe_name"},
+      {"data":"recipe_difficulty_level"},
+      {"data":"description"},
+      {"data":"ingredients_list"},
+      {"data":"measurements"},
+      {"data":"tips"}
+      ]
+    });
+/*
     $.ajax({
       url: "api/user/recipes?order="+encodeURIComponent("+id"),
       type: "GET",
@@ -149,5 +178,5 @@
     $("#recipes-table").DataTable();
 
   });
-
+*/
 </script>
