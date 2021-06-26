@@ -10,12 +10,11 @@ require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/RecipeService.class.php';
 require_once dirname(__FILE__).'/services/FeedbackService.class.php';
 
-require_once dirname(__FILE__).'/services/RecipeCreatorService.class.php';
 
 Flight::set('flight.log_errors', TRUE);
 
 // error handling for our API
-Flight::map('error', function(Exception $ex){
+/*Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
 
@@ -55,7 +54,6 @@ require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/recipes.php";
 require_once dirname(__FILE__)."/routes/feedback.php";
 
-require_once dirname(__FILE__)."/routes/recipeCreator.php";
 require_once dirname(__FILE__)."/routes/recipeCategory.php";
 
 

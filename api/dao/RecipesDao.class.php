@@ -24,8 +24,8 @@ class  RecipesDao extends BaseDao{
     }
 
     if(isset($search)){
-      $query .= "AND recipe_difficulty_level LIKE CONCAT('%', :search, '%') ";
-      $params['search'] = $search;           //strtolower($search);
+      $query .= "AND recipe_name LIKE CONCAT('%', :search, '%') ";
+      $params['search'] = strtolower($search);
     }
 
     $query .="ORDER BY ${order_column} ${order_direction} ";

@@ -30,24 +30,15 @@ Flight::route('GET /user/recipes/@id', function($id){
 });
 
 
-// Doesn't work properly, Check why v5, 30 min; NOT NEEDED because of other POST route
-/*Flight::route('POST /user/recipes', function(){
-  $data = Flight::request()->data->getData();
-  Flight::json(Flight::recipeService()->add($data));
-}); */
-
-
 /**
-*  @OA\Post(path="/recipes/add", tags={"recipes"}, security={{"ApiKeyAuth":{}}},
+*  @OA\Post(path="/user/recipes", tags={"x-user", recipes"}, security={{"ApiKeyAuth":{}}},
 *   @OA\RequestBody(description="Add recipe of your own", required=true,
 *     @OA\MediaType(mediaType="application/json",
 *    		@OA\Schema(
 *    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
 *    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
 *         @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
-*         @OA\Property(property="ingredients_list", requierd=true, type="string", example="eggs,salt,milk...", description="Ingredients required for recipe"),
-*         @OA\Property(property="measurements", requierd=true, type="string", example="2, pinch of, 1,5 l", description="Measurements for all ingredients"),
-*         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
+*         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
 *         )
 *     )
 *      ),
@@ -55,7 +46,7 @@ Flight::route('GET /user/recipes/@id', function($id){
  * )
  */
 Flight::route('POST /user/recipes', function(){
-  Flight::recipeService()->add_recipe(Flight::get('user'), Flight::request()->data->getData());
+  Flight::json(Flight::recipeService()->add_recipe(Flight::get('user'), Flight::request()->data->getData()));
 });
 
 /**
@@ -67,8 +58,6 @@ Flight::route('POST /user/recipes', function(){
  *    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
  *    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
  *          @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
- *          @OA\Property(property="ingredients_list", requierd=true, type="string", example="eggs,salt,milk...", description="Ingredients required for recipe"),
- *          @OA\Property(property="measurements", requierd=true, type="string", example="2, pinch of, 1,5 l", description="Measurements for all ingredients"),
  *          @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
  *          )
  *     )
@@ -117,15 +106,10 @@ Flight::route('GET /admin/recipes/@id', function($id){
  *   @OA\RequestBody(description="Basic recipe info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
- *             @OA\Property(property="recipe", requierd=true, type="string", example="My Recipe", description="Recipe of the user"),
 *    		       @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
 *    		       @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
 *              @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
-*              @OA\Property(property="ingredients_list", requierd=true, type="string", example="eggs,salt,milk...", description="Ingredients required for recipe"),
-*              @OA\Property(property="measurements", requierd=true, type="string", example="2, pinch of, 1,5 l", description="Measurements for all ingredients"),
-*              @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
-*              @OA\Property(property="category_id", requierd=true, type="string", example="1", description="Category ID"),
-*              @OA\Property(property="account_id", requierd=true, type="string", example="1", description="The account id of person submitting recipe"),
+*              @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
  *             )
  *       )
  *     ),
@@ -133,11 +117,11 @@ Flight::route('GET /admin/recipes/@id', function($id){
  * )
  */
 Flight::route('POST /admin/recipes', function(){
-  Flight::json(Flight::emailTemplateService()->add(Flight::request()->data->getData()));
+  Flight::json(Flight::recipeService()->add(Flight::request()->data->getData()));
 });
 
 /**
- * @OA\Put(path="/admin/recipes/{id}", tags={"x-admin", "reicpes"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Put(path="/admin/recipes/{id}", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
  *   @OA\Parameter(type="integer", in="path", name="id", default=1),
  *   @OA\RequestBody(description="Basic recipe info that is going to be updated", required=true,
  *       @OA\MediaType(mediaType="application/json",
@@ -146,8 +130,6 @@ Flight::route('POST /admin/recipes', function(){
 *    		       @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
 *    		       @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
 *              @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
-*              @OA\Property(property="ingredients_list", requierd=true, type="string", example="eggs,salt,milk...", description="Ingredients required for recipe"),
-*              @OA\Property(property="measurements", requierd=true, type="string", example="2, pinch of, 1,5 l", description="Measurements for all ingredients"),
 *              @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
  *          )
  *       )
