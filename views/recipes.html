@@ -25,8 +25,8 @@
                               <th>Recipe Name</th>
                               <th>Difficulty level</th>
                               <th>Description</th>
-                              <th>Ingridients List</th>
-                              <th>Measurements</th>
+              <!--                <th>Ingridients List</th>
+                              <th>Measurements</th>  -->
                               <th>Tips</th>
                           </tr>
                       </thead>
@@ -50,6 +50,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form role="form" id="add-recipes">
+            <input type="hidden" name="id"/>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Add recipe</h4>
@@ -67,14 +68,14 @@
                       <label>Description</label>
                       <textarea name="description" class="form-control" rows="10" required></textarea>
                   </div>
-                  <div class="form-group">
+        <!--         <div class="form-group">
                       <label>Ingredients List</label>
                       <textarea name="ingredients_list" class="form-control" rows="4" required></textarea>
                   </div>
                   <div class="form-group">
                       <label>Measurements</label>
                       <textarea name="measurements" class="form-control" rows="3" required></textarea>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                       <label>Any Tips?</label>
                       <textarea name="tips" class="form-control" rows="10"></textarea>
@@ -105,11 +106,15 @@
   getRecipes();
 
 
+  function updateRecipe(recipe){
+      console.log(recipe);
+  }
+
   function addRecipe(recipe){
     $.ajax({
       url: "api/user/recipes",
       type: "POST",
-      data: recipe,
+      data: JSON.stringify(recipe),
       beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
       success: function(data) {
         toastr.success("Recipe has been created");
@@ -128,39 +133,80 @@
   function getRecipes(){
 
     $("#recipes-table").DataTable({
-      "processing": true,
-      "serverSide": true,
-      "ajax" : {
+      processing : true,
+      serverSide : true,
+  //    pagingType : "simple",
+      ajax : {
         url: "api/user/recipes?order="+encodeURIComponent("+id"),
         type: "GET",
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
-        dataSrc : "",
+        beforeSend: function(xhr){
+          xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
+        },
+        dataSrc : function(resp){
+          resp[0].id = "<a class='btn btn-danger' onClick='doSomething'>Click me</a>";
+          console.log(resp);
+          return resp;
+        },
         data: function(d){
           d.offset=d.start;
           d.limit=d.length;
           d.search = d.search.value;
 
-
           //order in our format
           d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+
+          delete d.start;
+          delete d.lenght;
+          delete d.columns;
+          delete d.draw;
+
           console.log(d);
         }
       },
-      preDrawCallback: function(settings){
+  /*    preDrawCallback: function(settings){
         settings._iRecordsTotal = 100;
         settings._iRecordsDisplay = 10;
         console.log(settings);
-      },
+      }, */
       columnns: [
-      {"data":"id"},
+      {"data":"id",
+        "render": function(data, type, row, meta){
+          return '<span class="badge">'+data+'</span><a onClick="openEditRecipesModal">'
+        }
+      },
       {"data":"recipe_name"},
       {"data":"recipe_difficulty_level"},
       {"data":"description"},
-      {"data":"ingredients_list"},
-      {"data":"measurements"},
+    //  {"data":"ingredients_list"},
+  //    {"data":"measurements"},
       {"data":"tips"}
       ]
     });
+  }
+ function openEditRecipesModal(id){
+    $.ajax({
+      url: "api/user/recipes/"+id,
+      type: "GET",
+      data: recipe,
+      beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
+      success: function(data) {
+        $("#add-recipes *[name='recipe_name']").val("test");
+        $("#add-recipes*[name='recipe_difficulty_level']").val("test2");
+        $("#add-recipes *[name='description']").val("test3");
+        $("#add-recipe-modal").modal("show");
+        console.log(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      console.log(jqXHR);
+    }
+
+  });
+}
+
+  function doSomething(){
+    console.log(this);
+    toastr.success("you clicked");
+  }
 /*
     $.ajax({
       url: "api/user/recipes?order="+encodeURIComponent("+id"),

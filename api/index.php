@@ -54,7 +54,7 @@ require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/recipes.php";
 require_once dirname(__FILE__)."/routes/feedback.php";
 
-require_once dirname(__FILE__)."/routes/recipeCategory.php";
+
 
 
 Flight::start();
