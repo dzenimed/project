@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>RecipeBook</title>
+        <title>RecipeBook Admin</title>
 
         <!-- DataTable CSS -->
         <link href="./asset/css/dataTables/dataTables.bootstrap.css" rel="stylesheet">
@@ -52,7 +52,7 @@
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">RecipeBook</a>
+                    <a class="navbar-brand" href="index.html">RecipeBook Admin</a>
                 </div>
 
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -63,27 +63,6 @@
                 </button>
 
 
-                <ul class="nav navbar-right navbar-top-links">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i> <b class="caret"></b>
-                        </a>
-                        <ul id="dropdown-menu" class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                            </li>
-                            <li class="admin-stuff">
-                              <a href="admin.html"><i class="fa fa-users fa-fw"></i> Admin Panel</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a onclick="doLogOut()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- /.navbar-top-links -->
-
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
@@ -91,21 +70,12 @@
                                 <a href="#dashboard" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>
                             <li>
-                                <a href="#recipeIngredients"><i class="fa fa-list fa-fw"></i> Recipe Ingredients</a>
-                            </li>
-                            <li>
-                                <a href="#recipes"><i class="fa fa-book-reader fa-fw"></i> Recipes</a>
-                            </li>
-                            <li>
-                                <a href="#feedback"><i class="fa fa-table fa-fw"></i>Feedback</a>
-                            </li>
-                            <li>
-                                <a href="#settings"><i class="fa fa-cog fa-fw"></i>Settings</a>
+                                <a href="#users"><i class="fa fa-list fa-fw"></i> Recipe Ingredients</a>
                             </li>
                             <li class="divider"></li>
 
                             <li class="admin-stuff">
-                                <a href="admin.html"><i class="fa fa-users fa-fw"></i>Admin Panel</a>
+                                <a href="index.html"><i class="fa fa-arrow-left fa-fw"></i>Back</a>
                             </li>
                         </ul>
                     </div>
@@ -171,12 +141,12 @@
               // this will not be performed
               window.location = "login.html";
             }else{
-              $('body').show();
               var user_info = parse_jwt(window.localStorage.getItem("token"));
               if(user_info.r != "ADMIN"){
-                $(".admin-stuff").remove();
+                window.location = "index.html";
+              }else{
+                $('body').show();
               }
-              $('body').show();
             }
           });
 

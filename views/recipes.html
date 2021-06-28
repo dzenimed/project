@@ -98,9 +98,14 @@
   $("#add-recipes").validate({
    submitHandler: function(form, event) {
      event.preventDefault();
+     var data = AUtils.form2json($(form));
 
-     console.log(jsonize_form($(form)));
-     addRecipe(jsonize_form($(form)));
+     console.log(AUtils.form2json($(form)));
+     if(data.id){
+       updateRecipe(data);
+     }else{
+       addRecipe(data);
+     }
    }
   });
   getRecipes();
@@ -108,7 +113,24 @@
 
   function updateRecipe(recipe){
       console.log(recipe);
-  }
+      $.ajax({
+        url: "api/user/recipes"+recipe.id,
+        type: "PUT",
+        data: JSON.stringify(recipe),
+        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
+        success: function(data) {
+          toastr.success("Recipe has been updated");
+          getRecipes();
+          $("#add-recipes").trigger("reset");
+          $("#add-recipe *[name='id']").val("");
+          $("#add-recipe-modal").modal("hide");
+          console.log(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+      }
+  });
+}
 
   function addRecipe(recipe){
     $.ajax({
@@ -210,10 +232,7 @@
       type: "GET",
       beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
       success: function(data) {
-        $("#add-recipes *[name='recipe_name']").val(data.id);
-        $("#add-recipes *[name='recipe_difficulty_level']").val(data.recipe_name);
-        $("#add-recipes *[name='description']").val(data.recipe_difficulty_level);
-        $("#add-recipes *[name='tips']").val(data.tips);
+        json2form("#add-recipe", data);
         $("#add-recipe-modal").modal("show");
         console.log(data);
     },
