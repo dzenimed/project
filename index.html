@@ -152,6 +152,7 @@
 
         <script src="./assets//js/utils.js"></script>
         <script src="./assets//js/restClient.js"></script>
+        <script src="./assets//js/controllers/recipes.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
@@ -162,7 +163,7 @@
         <script type="text/javascript">
           $(document).ready(function() {
             var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
-
+            app.route({view : "recipes", load : "recipes.html", onReady: function() { Recipes.init() }});
             // $('body').show(); if guest will be also included
 
             // run app
@@ -173,7 +174,7 @@
               window.location = "login.html";
             }else{
               $('body').show();
-              var user_info = parse_jwt(window.localStorage.getItem("token"));
+              var user_info = AUtils.parse_jwt(window.localStorage.getItem("token"));
               if(user_info.r != "ADMIN"){
                 $(".admin-stuff").remove();
               }
