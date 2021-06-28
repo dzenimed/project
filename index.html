@@ -68,10 +68,13 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i> <b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu dropdown-user">
+                        <ul id="dropdown-menu" class="dropdown-menu dropdown-user">
                             <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                             </li>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="admin-stuff">
+                              <a href="admin.html"><i class="fa fa-users fa-fw"></i> Admin Panel</a>
                             </li>
                             <li class="divider"></li>
                             <li><a onclick="doLogOut()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -99,6 +102,11 @@
                             <li>
                                 <a href="#settings"><i class="fa fa-cog fa-fw"></i>Settings</a>
                             </li>
+                            <li class="divider"></li>
+                            
+                            <li class="admin-stuff">
+                                <a href="admin.html"><i class="fa fa-users fa-fw"></i>Admin Panel</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -111,6 +119,7 @@
               <section id="feedback" data-load="feedback.html" ></section>
               <section id="settings" data-load="settings.html" ></section>
               <section id="recipes" data-load="recipes.html" ></section>
+
 
             </main>
 
@@ -162,6 +171,11 @@
               // this will not be performed
               window.location = "login.html";
             }else{
+              $('body').show();
+              vaar user_info = parse_jwt(window.localStorage.getItem("token"));
+              if(user_info.r != "ADMIN"){
+                $.(".admin-stuff").remove();
+              }
               $('body').show();
             }
           });
