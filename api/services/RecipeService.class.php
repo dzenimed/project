@@ -26,7 +26,7 @@ class RecipeService extends BaseService{
     return $this->update($id, $recipe);
   }
 
-// add doesn't work properly, check why, PARSE ERROR
+// add doesn't work properly, check why
   public function add_recipe($user, $recipe){
       try {
       $data =[
@@ -34,8 +34,8 @@ class RecipeService extends BaseService{
         "recipe_difficulty_level" => $recipe['recipe_difficulty_level'],
         "description" => $recipe['description'],
         "tips" => $recipe['tips'],
-        "category_id" => $recipe['category_id'],
         "created_at" => date(Config::DATE_FORMAT),
+        "category_id" => $recipe['category_id'],
         "account_id" => $user['aid']
       ];
         return parent::add($data);

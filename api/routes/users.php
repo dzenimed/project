@@ -28,8 +28,7 @@ Flight::route('POST /register', function(){
  * )
  */
 Flight::route('GET /confirm/@token', function($token){
-  Flight::userService()->confirm($token);
-  Flight::json(["message"=>"Your account has been activated"]);
+  Flight::json(Flight::jwt(Flight::userService()->confirm($token)));
 });
 
 /**

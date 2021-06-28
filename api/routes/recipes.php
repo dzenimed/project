@@ -2,6 +2,7 @@
 
 /**
  * @OA\Get(path="/user/recipes", tags={"x-user", "recipes"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="account_id", default=0, description="Account id to be found by"),
  *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(@OA\Schema(type="integer"), in="query", name="limit", default=25, description="Limit for pagination"),
  *     @OA\Parameter(@OA\Schema(type="string"), in="query", recipe_name="search", description="Search string for recipes. Case insensitive search."),

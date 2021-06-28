@@ -133,21 +133,40 @@
   function getRecipes(){
 
     $("#recipes-table").DataTable({
-      processing : true,
-      serverSide : true,
-  //    pagingType : "simple",
-      ajax : {
+      processing : true,            // pop-up
+      serverSide : true,           //data is loaded from server
+      bDestroy: true,             // refresh table once data is added
+      pagingType : "simple",     // organization of buttons in lower corner
+      preDrawCallback: function(settings){
+        if(settings.aoData.length < settings._iDisplayLength){
+          // disable pagination
+          settings._iRecordsTotal = 0;
+          settings._iRecordsDisplay = 0;
+        }else{
+          // emable pagination
+          settings._iRecordsTotal = 100000;
+          settings._iRecordsDisplay = 100000;
+        }
+      },
+      language: {
+        "lengthMenu": "Display _MENU_ records per page",
+        "zeroRecords":"Nothing found - sorry",
+        "info": "Showing page _PAGE_",
+        "infoEmpty": "No records available",
+        "infoFiltered": ""
+      },
+      ajax : {                                                   // fetch data from server
         url: "api/user/recipes?order="+encodeURIComponent("+id"),
         type: "GET",
         beforeSend: function(xhr){
           xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
         },
-        dataSrc : function(resp){
-          resp[0].id = "<a class='btn btn-danger' onClick='doSomething'>Click me</a>";
+        dataSrc : function(resp){                              // mapping data
+      //    resp[0].id = "<a class='btn btn-danger' onClick='doSomething'>Click me</a>";
           console.log(resp);
           return resp;
         },
-        data: function(d){
+        data: function(d){                          // map data table parameters into our API parameters
           d.offset=d.start;
           d.limit=d.length;
           d.search = d.search.value;
@@ -163,15 +182,10 @@
           console.log(d);
         }
       },
-  /*    preDrawCallback: function(settings){
-        settings._iRecordsTotal = 100;
-        settings._iRecordsDisplay = 10;
-        console.log(settings);
-      }, */
-      columnns: [
+      columnns: [                                  //columns descriptor: used to read objects from the data source based on column names
       {"data":"id",
         "render": function(data, type, row, meta){
-          return '<span class="badge">'+data+'</span><a onClick="openEditRecipesModal">'
+          return '<span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onClick="openEditRecipesModal">'; //add something
         }
       },
       {"data":"recipe_name"},
@@ -179,7 +193,8 @@
       {"data":"description"},
     //  {"data":"ingredients_list"},
   //    {"data":"measurements"},
-      {"data":"tips"}
+      {"data":"tips"},
+      {"data":"created_at"}
       ]
     });
   }
