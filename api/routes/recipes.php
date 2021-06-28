@@ -17,6 +17,8 @@ Flight::route('GET /user/recipes', function(){
   $search = Flight::query('search');
   $order = Flight::query('order', '-id');
 
+  $total =Flight::recipeService()->get_recipe($account_id, $offset, $limit, $search, $order, TRUE);
+  header('total-records: ' . $total['total']);
   Flight::json(Flight::recipeService()->get_recipe($account_id, $offset, $limit, $search, $order));
 });
 

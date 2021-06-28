@@ -136,9 +136,13 @@
       processing : true,            // pop-up
       serverSide : true,           //data is loaded from server
       bDestroy: true,             // refresh table once data is added
-      pagingType : "simple",     // organization of buttons in lower corner
+  //    pagingType : "simple",     // organization of buttons in lower corner
       preDrawCallback: function(settings){
-        if(settings.aoData.length < settings._iDisplayLength){
+        if(settings.jqXHR){
+          settings._iRecordsTotal = settings.jqXHR.getResponseHeader('total-records');
+          settings._iRecordsDisplay = settings.jqXHR.getResponseHeader('total-records');
+        }
+      /*  if(settings.aoData.length < settings._iDisplayLength){
           // disable pagination
           settings._iRecordsTotal = 0;
           settings._iRecordsDisplay = 0;
@@ -146,15 +150,15 @@
           // emable pagination
           settings._iRecordsTotal = 100000;
           settings._iRecordsDisplay = 100000;
-        }
+        } */
       },
-      language: {
+    /*  language: {
         "lengthMenu": "Display _MENU_ records per page",
         "zeroRecords":"Nothing found - sorry",
         "info": "Showing page _PAGE_",
         "infoEmpty": "No records available",
         "infoFiltered": ""
-      },
+      },  */
       ajax : {                                                   // fetch data from server
         url: "api/user/recipes?order="+encodeURIComponent("+id"),
         type: "GET",
@@ -202,12 +206,12 @@
     $.ajax({
       url: "api/user/recipes/"+id,
       type: "GET",
-      data: recipe,
       beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
       success: function(data) {
-        $("#add-recipes *[name='recipe_name']").val("test");
-        $("#add-recipes*[name='recipe_difficulty_level']").val("test2");
-        $("#add-recipes *[name='description']").val("test3");
+        $("#add-recipes *[name='recipe_name']").val(data.id);
+        $("#add-recipes *[name='recipe_difficulty_level']").val(data.recipe_name);
+        $("#add-recipes *[name='description']").val(data.recipe_difficulty_level);
+        $("#add-recipes *[name='tips']").val(data.tips);
         $("#add-recipe-modal").modal("show");
         console.log(data);
     },
