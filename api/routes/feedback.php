@@ -26,7 +26,7 @@ Flight::route('GET /user/feedback', function(){
  * )
  */
 Flight::route('GET /user/feedback/@id', function($id){
-    Flight::json(Flight::recipeService()->get_recipe_by_account_and_id($account_id, $id));
+    Flight::json(Flight::recipeService()->get_feedback_by_account_and_id($account_id, $id));
 });
 
 
@@ -42,7 +42,7 @@ Flight::route('GET /user/feedback/@id', function($id){
  *  @OA\Response(response="200", description="Recipe has been created.")
  * )
  */
- // TODO: CHANGE THE PARAMETERS 
+ // TODO: CHANGE THE PARAMETERS
  Flight::route('POST /user/feedback', function(){
    Flight::feedbackService()->add_feedback(Flight::get('user'), Flight::request()->data->getData());
  });
@@ -62,7 +62,7 @@ Flight::route('GET /user/feedback/@id', function($id){
  */
 
 Flight::route('PUT /user/feedback/@id', function($id){
-  Flight::json(Flight::recipeService()->update_recipe(Flight::get('user'),$id, Flight::request()->data->getData()));
+  Flight::json(Flight::feedbackService()->update_feedback(Flight::get('user'),$id, Flight::request()->data->getData()));
 });
 
 

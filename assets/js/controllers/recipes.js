@@ -14,10 +14,10 @@ class Recipes{
      }
     });
     AUtils.role_based_elements();
-    EmailTemplate.get_all();
-    EmailTemplate.chart();
+    Recipes.get_all();
+  //  EmailTemplate.chart();
   }
-
+/*
   static chart(){
     RestClient.get("api/user/recipes_chart", function(chart_data){
       new Morris.Line({
@@ -29,7 +29,7 @@ class Recipes{
       });
     });
   }
-
+*/
   static get_all(){
     $("#recipes-table").DataTable({
       processing : true,            // pop-up

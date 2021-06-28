@@ -141,7 +141,7 @@ Flight::route('POST /admin/recipes', function(){
  * )
  */
 Flight::route('PUT /admin/recipes/@id', function($id){
-  Flight::json(Flight::emailTemplateService()->update($id, Flight::request()->data->getData()));
+  Flight::json(Flight::recipeService()->update($id, Flight::request()->data->getData()));
 });
 
 ?>

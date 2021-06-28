@@ -12,8 +12,8 @@ class recipeCategoryService extends BaseService{
   public function add($recipesCategory){
     try {
       return parent::add($recipesCategory);
-    } catch (\Exception $e) {                      // needed ?
-      if(str_contains($e->getMessage(), 'recipecategory.id_UNIQUE')){
+    } catch (\Exception $e) {
+      if(str_contains($e->getMessage(), 'recipecategory.category_name_UNIQUE')){
         throw new Exception("Recipe category was already created", 400, $e);
       }else{
         throw $e;
@@ -23,11 +23,11 @@ class recipeCategoryService extends BaseService{
     }
   }
 
-  public function get_categories($search, $offset, $limit){
+  public function get_categories($offset, $limit, $search, $order){
     if($search){
-      return $this->dao->get_categories($search, $offset, $limit);
+      return $this->dao->get_categories($search, $offset, $limit, $order);
     }else{
-      return $this->dao->get_all($offset, $limit, $order);
+      return;
     }
   }
 

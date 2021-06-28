@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 require_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once dirname(__FILE__).'/services/AccountService.class.php';
+require_once dirname(__FILE__).'/services/RecipeCategoryService.class.php';
 require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/RecipeService.class.php';
 require_once dirname(__FILE__).'/services/FeedbackService.class.php';
@@ -14,7 +15,7 @@ require_once dirname(__FILE__).'/services/FeedbackService.class.php';
 Flight::set('flight.log_errors', TRUE);
 
 // error handling for our API
-/*Flight::map('error', function(Exception $ex){
+Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
 
@@ -42,8 +43,6 @@ Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('recipeService', 'RecipeService');
 Flight::register('feedbackService', 'FeedbackService');
-
-Flight::register('recipeCreatorService', 'RecipeCreatorService');
 Flight::register('recipeCategoryService', 'RecipeCategoryService');
 
 
@@ -52,6 +51,7 @@ require_once dirname(__FILE__)."/routes/middleware.php";
 require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/recipes.php";
+require_once dirname(__FILE__)."/routes/recipe_category.php";
 require_once dirname(__FILE__)."/routes/feedback.php";
 
 Flight::start();

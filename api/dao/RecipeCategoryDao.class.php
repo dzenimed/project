@@ -10,6 +10,10 @@ class  RecipeCategoryDao extends BaseDao{
   public function get_category_by_name($category_name){
     return $this->query_unique("SELECT * FROM recipecategory WHERE category_name =: category_name", ["category_name"=>$category_name]);
   }
+/*
+  public function get_all_categories(){
+    return $this->query("SELECT * FROM recipecategory");
+  }*/
 
   public function get_categories($search, $offset, $limit, $order= '-id'){
 
