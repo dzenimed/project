@@ -112,44 +112,22 @@
 
 
   function updateRecipe(recipe){
-      console.log(recipe);
-      $.ajax({
-        url: "api/user/recipes"+recipe.id,
-        type: "PUT",
-        data: JSON.stringify(recipe),
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
-        success: function(data) {
-          toastr.success("Recipe has been updated");
-          getRecipes();
-          $("#add-recipes").trigger("reset");
-          $("#add-recipe *[name='id']").val("");
-          $("#add-recipe-modal").modal("hide");
-          console.log(data);
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-        console.log(jqXHR);
-      }
-  });
+    RestClient.put("api/user/recipes/"+recipe.id, recipe, function(data){
+      toastr.success("Recipe has been updated");
+      getRecipes();
+      $("#add-recipes").trigger("reset");
+      $("#add-recipe *[name='id']").val("");
+      $("#add-recipe-modal").modal("hide");
+    });
 }
 
   function addRecipe(recipe){
-    $.ajax({
-      url: "api/user/recipes",
-      type: "POST",
-      data: JSON.stringify(recipe),
-      beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
-      success: function(data) {
-        toastr.success("Recipe has been created");
-        getRecipes();
-        $("#add-recipes").trigger("reset");
-        $("#add-recipe-modal").modal("hide");
-        console.log(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      console.log(jqXHR);
-    }
-
-  });
+    RestClient.post("api/user/recipes", recipe, function(data){
+      toastr.success("Recipe has been created");
+      getRecipes();
+      $("#add-recipes").trigger("reset");
+      $("#add-recipe-modal").modal("hide");
+    });
   }
 
   function getRecipes(){
@@ -226,49 +204,18 @@
       ]
     });
   }
- function openEditRecipesModal(id){
-    $.ajax({
-      url: "api/user/recipes/"+id,
-      type: "GET",
-      beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
-      success: function(data) {
-        json2form("#add-recipe", data);
-        $("#add-recipe-modal").modal("show");
-        console.log(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      console.log(jqXHR);
-    }
 
-  });
+ function openEditRecipesModal(id){
+   RestClient.get("api/user/recipes/"+id, function(data){
+     AUtils.json2form("#add-recipe", data);
+     $("#add-recipe-modal").modal("show");
+     console.log(data);
+   });
 }
 
-  function doSomething(){
+/*  function doSomething(){
     console.log(this);
     toastr.success("you clicked");
-  }
-/*
-    $.ajax({
-      url: "api/user/recipes?order="+encodeURIComponent("+id"),
-      type: "GET",
-      beforeSend: function(xhr){xhr.setRequestHeader('Authorization', localStorage.getItem("token"));},
-      success: function(data) {
-        console.log(data);
+  } */
 
-    var html = "";
-    for(var i = 0; i < data.lenght; i ++){
-      html+= '<tr class="odd>'
-          +'<td>'+data[i].id'</td>'
-          +'<td>'+data[i].recipe_name'</td>'
-          +'<td>'+data[i].recipe_difficulty_level'</td>'
-          +'<td>'+data[i].description'</td>'
-          +'<td>'+data[i].ingredients_list'</td>'
-          +'<td>'+data[i].measurements'</td>'
-          +'<td>'+data[i].tips'</td></tr>';
-    }
-    $("#recipes-table tbody").html(html);
-    $("#recipes-table").DataTable();
-
-  });
-*/
 </script>
