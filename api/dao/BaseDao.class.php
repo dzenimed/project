@@ -24,7 +24,7 @@ class BaseDao {
     }
   }
 
-  public static function parse_order($order){
+  public function parse_order($order){
     switch(substr($order, 0, 1)){
       case '-' : $order_direction = 'ASC'; break;
       case '+' : $order_direction = 'DESC'; break;
@@ -38,7 +38,7 @@ class BaseDao {
   }
 
   public function beginTransaction(){ //change
-    $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+    $this->connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
     $this->connection->beginTransaction();
   }
   public function commit(){
