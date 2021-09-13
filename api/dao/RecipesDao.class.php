@@ -11,6 +11,10 @@ class  RecipesDao extends BaseDao{
     return $this->query_unique("SELECT * FROM recipes WHERE account_id = :account_id AND id = :id", ["account_id" => $account_id, "id" => $id]);
   }
 
+  public function get_recipe_by_id($id){
+    return $this->query_unique("SELECT * FROM recipes WHERE id = :id", ["id" => $id]);
+  }
+
   public function get_recipe($account_id, $offset, $limit, $search, $order, $total=FALSE){
     list($order_column, $order_direction) = self::parse_order($order);
 
@@ -29,7 +33,7 @@ class  RecipesDao extends BaseDao{
     }
 
     if(isset($search)){
-      $query .= "AND (LOWER(recipe_name) LIKE CONCAT('%', :search, '%') OR recipe_difficulty_level LIKE CONCAT('%', :search, '%')) ";
+      $query .= "AND (LOWER(recipe_name) LIKE CONCAT('%', :search, '%') OR recipe_difficulty_level = :search "";
       $params['search'] = strtolower($search);
     }
 
