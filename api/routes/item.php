@@ -21,7 +21,7 @@ Flight::route('GET /user/item', function(){
 });
 
 /**
- * @OA\Get(path="/item/@id", tags={"x-user", "item"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Get(path="/item/@id", tags={"item"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of item"),
  *     @OA\Response(response="200", description="Fetch individual item by recipe.")
  * )
@@ -31,7 +31,7 @@ Flight::route('GET /item/@id', function($id){
 });
 
 /**
- * @OA\Get(path="/item/@recipe_id", tags={"x-user", "item"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Get(path="/item/@recipe_id", tags={"item"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of recipe"),
  *     @OA\Response(response="200", description="Fetch individual item by recipe.")
  * )
@@ -40,24 +40,25 @@ Flight::route('GET /item/@recipe_id', function($recipe_id){
     Flight::json(Flight::itemService()->get_item_by_recipe_id($recipe_id));
 });
 
-// ovdje
 /**
-*  @OA\Post(path="/user/item", tags={"x-user", item"}, security={{"ApiKeyAuth":{}}},
+*  @OA\Post(path="/item", tags={"item"}, security={{"ApiKeyAuth":{}}},
 *   @OA\RequestBody(description="Add item of your own", required=true,
 *     @OA\MediaType(mediaType="application/json",
 *    		@OA\Schema(
-*    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
-*    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
-*         @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
+*    		  @OA\Property(property="title", requierd=true, type="string", example="ItemName", description="Name of the item"),
+*    		  @OA\Property(property="description", requierd=true, type="string", example="Burrito filled with vegan ingredients", description="Description of item"),
+*    		  @OA\Property(property="preparation_time", requierd=true, type="string", example="50 minutes", description="Time required to prepare item"),
+*    		  @OA\Property(property="difficulty_level", requierd=true, type="int", example="4", description="Level of difficulty (1-easy, 5-hard)"),
+*         @OA\Property(property="image_link", requierd=true, type="string", example="https:www....", description="Link to photo of item"),
 *         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
 *         )
 *     )
 *      ),
- *  @OA\Response(response="200", description="Recipe has been created.")
+ *  @OA\Response(response="200", description="Item has been created.")
  * )
  */
-Flight::route('POST /user/item', function(){
-  Flight::json(Flight::recipeService()->add_recipe(Flight::get('user'), Flight::request()->data->getData()));
+Flight::route('POST /item', function(){
+  Flight::json(Flight::itemService()->add_item(Flight::request()->data->getData()));
 });
 
 /**

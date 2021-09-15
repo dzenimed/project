@@ -33,29 +33,38 @@ class ItemService extends BaseService{
   */
 
 
-  public function add_item($user, $item){
+  public function add_item($item){
       try {
-      $data =[
+      $data = [
         "title" => $item['title'],
         "description" => $item['description'],
         "preparation_time" => $item['preparation_time'],
         "difficulty_lvl" => $item['difficulty_lvl'],
         "image_src" => $item['image_src'],
-        "category_id" => $item['category_id'],
-        "recipe_id" => $item['recipe_id']
+        "category_id" => Flight::get('recipecategory')['id'],
+        "recipe_id" => Flight::get('recipes')['id']
       ];
         return parent::add($data);
-      } catch (\Exception $e) {
-      /*  if(str_contains($e->getMessage(), 'item.recipe_name_UNIQUE')){
-          throw new Exception("Recipe with the same name was already created.", 400, $e);
-        }else{ */
+      } catch (Exception $e) {
+        if(empty($item['description'])){
+          throw new Exception("You must describe the item!", 400, $e);
+        }else{
           throw new Exception($e->getMessage(), 400, $e);
-        //}
+        }
       }
   }
-/*
-  public function get_by_id(){
-  } */
+
+  public function add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name){
+    $query = "INSERT INTO mdyb.item(title, description, preparation_time, difficulty_lvl, image_src, recipe_id, category_id)
+              VALUES ( ".$title.", '".$description."', '".$preparation_time."', '".$difficulty_lvl."', '".$image_src."',
+              (SELECT id FROM mydb.recipes WHERE recipe_name = '".$recipe_name."'),
+              (SELECT id FROM mydb.recipecategory WHERE category_name = '".$category_name."') );";
+
+    $stmt= $this->connection->prepare($query);    
+    $stmt->exec($query);
+
+
+  }
 }
 
 ?>
