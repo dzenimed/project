@@ -6,16 +6,16 @@ class  RecipesDao extends BaseDao{
   public function __construct(){
     parent::__construct("recipes");
   }
-
-  public function get_recipe_by_account_and_id($account_id, $id){
-    return $this->query_unique("SELECT * FROM recipes WHERE account_id = :account_id AND id = :id", ["account_id" => $account_id, "id" => $id]);
+ public function get_recipe_by_user_id($user_id){
+    return $this->query_unique("SELECT * FROM recipes WHERE user_id = :user_id", ["user_id" => $user_id]);
   }
 
   public function get_recipe_by_id($id){
-    return $this->query_unique("SELECT * FROM recipes WHERE id = :id", ["id" => $id]);
+    return $this->get_by_id($id);
+  //  return $this->query_unique("SELECT * FROM recipes WHERE id = :id", ["id" => $id]);
   }
 
-  public function get_recipe($account_id, $offset, $limit, $search, $order, $total=FALSE){
+  public function get_recipe_by_name($offset, $limit, $search, $order, $total=FALSE){
     list($order_column, $order_direction) = self::parse_order($order);
 
     $params = [];
@@ -27,13 +27,8 @@ class  RecipesDao extends BaseDao{
     $query .= "FROM recipes
               WHERE 1=1 ";
 
-    if($account_id){
-        $params["account_id"] = $account_id;
-        $query .= "AND account_id = :account_id ";
-    }
-
     if(isset($search)){
-      $query .= "AND (LOWER(recipe_name) LIKE CONCAT('%', :search, '%') OR recipe_difficulty_level = :search ";
+      $query .= "AND (LOWER(recipe_name) LIKE CONCAT('%', :search, '%')) ";
       $params['search'] = strtolower($search);
     }
 
@@ -46,5 +41,16 @@ class  RecipesDao extends BaseDao{
       return $this->query($query, $params);
     }
   }
+
+  public function update_preparation_steps($id, $preparation_steps){
+    $query = "UPDATE recipes
+              SET preparation_steps = :preparation_steps
+              WHERE id = :id";
+    $stmt = $this->connection->prepare($query);
+    $params=["id" => $id, "preparation_steps" => $preparation_steps];
+    $stmt -> execute($params);
+  }
+
 }
+
 ?>

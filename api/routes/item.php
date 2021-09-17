@@ -50,7 +50,9 @@ Flight::route('GET /item/@recipe_id', function($recipe_id){
 *    		  @OA\Property(property="preparation_time", requierd=true, type="string", example="50 minutes", description="Time required to prepare item"),
 *    		  @OA\Property(property="difficulty_level", requierd=true, type="int", example="4", description="Level of difficulty (1-easy, 5-hard)"),
 *         @OA\Property(property="image_link", requierd=true, type="string", example="https:www....", description="Link to photo of item"),
-*         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
+*         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
+*         @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Recipe name that describes your item"),
+*         @OA\Property(property="category_name", requierd=true, type="string", example="Sweet", description="Name of category suitable for your item")
 *         )
 *     )
 *      ),
@@ -58,7 +60,7 @@ Flight::route('GET /item/@recipe_id', function($recipe_id){
  * )
  */
 Flight::route('POST /item', function(){
-  Flight::json(Flight::itemService()->add_item(Flight::request()->data->getData()));
+  Flight::json(Flight::itemService()->add_i(Flight::request()->data->getData()));
 });
 
 /**

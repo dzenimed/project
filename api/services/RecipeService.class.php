@@ -10,12 +10,16 @@ class RecipeService extends BaseService{
     $this->dao = new RecipesDao();
   }
 
-  public function get_recipe_by_account_and_id($account_id, $id){
-      return $this->dao->get_recipe_by_account_and_id($account_id, $id);
+  public function get_recipe_by_user_id($user_id){
+      return $this->dao->get_recipe_by_user_id($user_id);
   }
 
-  public function get_recipe($account_id, $offset, $limit, $search, $order, $total = FALSE){
-    return $this->dao->get_recipe($account_id, $offset, $limit, $search, $order, $total);
+  public function get_recipe($offset, $limit, $search, $order, $total=FALSE){
+    if($search){
+      return $this->dao->get_recipe_by_name($offset, $limit, $search, $order, $total);
+    }else{
+      return $this->dao->get_all($offset, $limit, $order, $total);
+    }
   }
 
   public function update_recipe($user, $id, $recipe){
@@ -24,32 +28,26 @@ class RecipeService extends BaseService{
       throw new Exception("Invalid recipe", 403);
     }
     return $this->update($id, $recipe);
-  }
+  } 
 
-// add doesn't work properly, check why
+// CAUSES ERROR
+/*
   public function add_recipe($user, $recipe){
       try {
       $data =[
-        "recipe_name" => $recipe['recipe_name'],
-        "recipe_difficulty_level" => $recipe['recipe_difficulty_level'],
-        "description" => $recipe['description'],
-        "tips" => $recipe['tips'],
+        "recipe_name" => $recipe["recipe_name"],
+        "preparation_steps" => $recipe["preparation_steps"],
+        "tips" => $recipe["tips"],
         "created_at" => date(Config::DATE_FORMAT),
-        "category_id" => $recipe['category_id'],
-        "account_id" => $user['aid']
+        "user_id" => Flight::get('user')[id]
       ];
         return parent::add($data);
       } catch (\Exception $e) {
-        if(str_contains($e->getMessage(), 'recipes.recipe_name_UNIQUE')){
-          throw new Exception("Recipe with the same name was already created.", 400, $e);
-        }else{
           throw new Exception($e->getMessage(), 400, $e);
         }
       }
-  }
-/*
-  public function get_by_id(){
   } */
+
 }
 
 ?>
