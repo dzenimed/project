@@ -27,7 +27,7 @@ Flight::route('GET /user/recipes', function(){
  * )
  */
 Flight::route('GET /user/recipes/@id', function($id){
-    Flight::json(Flight::recipeService()->get_recipe_by_user_id($user_id));
+    Flight::json(Flight::recipeService()->get_recipe_by_id($id));
 });
 
 
@@ -37,8 +37,7 @@ Flight::route('GET /user/recipes/@id', function($id){
 *     @OA\MediaType(mediaType="application/json",
 *    		@OA\Schema(
 *    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
-*    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
-*         @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
+*    		  @OA\Property(property="preparation_steps", requierd=true, type="int", example="1-5", description="Steps on how to prepare the recipe"),
 *         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
 *         )
 *     )
@@ -57,9 +56,8 @@ Flight::route('POST /user/recipes', function(){
  *     @OA\MediaType(mediaType="application/json",
  *    		@OA\Schema(
  *    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
- *    		  @OA\Property(property="recipe_difficulty_level", requierd=true, type="int", example="1-5", description="Level of dificulty"),
- *          @OA\Property(property="description", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
- *          @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier"),
+ *    		  @OA\Property(property="preparation_steps", requierd=true, type="int", example="1-5", description="Steps on how to prepare the recipe"),
+ *          @OA\Property(property="tips", requierd=true, type="string", example="Preheat the owen at 200 degrees...", description="Preparation steps"),
  *          )
  *     )
  *      ),

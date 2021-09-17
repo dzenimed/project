@@ -14,6 +14,10 @@ class RecipeService extends BaseService{
       return $this->dao->get_recipe_by_user_id($user_id);
   }
 
+  public function get_recipe_by_id($id){
+      return $this->dao->get_recipe_by_id($id);
+  }
+
   public function get_recipe($offset, $limit, $search, $order, $total=FALSE){
     if($search){
       return $this->dao->get_recipe_by_name($offset, $limit, $search, $order, $total);
@@ -22,16 +26,18 @@ class RecipeService extends BaseService{
     }
   }
 
-  public function update_recipe($user, $id, $recipe){
-    $db_recipe = $this->dao->get_by_id($id);
-    if ($db_recipe['account_id'] != $user['aid']){
-      throw new Exception("Invalid recipe", 403);
-    }
-    return $this->update($id, $recipe);
-  } 
+  /* once added,cant be updated
+    public function update_preparation_steps($id, $preparation_steps){
+      $query = "UPDATE recipes
+                SET preparation_steps = :preparation_steps
+                WHERE id = :id";
+      $stmt = $this->connection->prepare($query);
+      $params=["id" => $id, "preparation_steps" => $preparation_steps];
+      $stmt -> execute($params);
+    }*/
 
 // CAUSES ERROR
-/*
+
   public function add_recipe($user, $recipe){
       try {
       $data =[
@@ -45,8 +51,7 @@ class RecipeService extends BaseService{
       } catch (\Exception $e) {
           throw new Exception($e->getMessage(), 400, $e);
         }
-      }
-  } */
+    } 
 
 }
 

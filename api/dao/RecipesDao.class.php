@@ -9,10 +9,10 @@ class  RecipesDao extends BaseDao{
  public function get_recipe_by_user_id($user_id){
     return $this->query_unique("SELECT * FROM recipes WHERE user_id = :user_id", ["user_id" => $user_id]);
   }
-
+// not working
   public function get_recipe_by_id($id){
     return $this->get_by_id($id);
-  //  return $this->query_unique("SELECT * FROM recipes WHERE id = :id", ["id" => $id]);
+    // return $this->query_unique("SELECT * FROM recipes WHERE id = :id", ["id" => $id]);
   }
 
   public function get_recipe_by_name($offset, $limit, $search, $order, $total=FALSE){
@@ -40,15 +40,6 @@ class  RecipesDao extends BaseDao{
 
       return $this->query($query, $params);
     }
-  }
-
-  public function update_preparation_steps($id, $preparation_steps){
-    $query = "UPDATE recipes
-              SET preparation_steps = :preparation_steps
-              WHERE id = :id";
-    $stmt = $this->connection->prepare($query);
-    $params=["id" => $id, "preparation_steps" => $preparation_steps];
-    $stmt -> execute($params);
   }
 
 }

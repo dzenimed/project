@@ -19,7 +19,7 @@ Flight::set('flight.log_errors', TRUE);
 /*
 Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
-}); */
+});
 
 /* utility function for reading query parameters from URL */
 Flight::map('query', function($name, $default_value = NULL){
@@ -30,16 +30,16 @@ Flight::map('query', function($name, $default_value = NULL){
 });
 
 /* utility function for getting header parameters */
-/*Flight::map('header', function($name){
+Flight::map('header', function($name){
   $headers = getallheaders();
   return @$headers[$name];
-}); */
+});
 
 /* utility function for generating JWT token */
-/*Flight::map('jwt', function($user){
+Flight::map('jwt', function($user){
   $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
   return ["token" => $jwt];
-});*/
+});
 
 Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");
