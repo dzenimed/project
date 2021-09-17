@@ -26,6 +26,24 @@ class RecipeService extends BaseService{
     }
   }
 
+  // error: Trying to access array offset on value of type null (400)
+
+    public function add_recipe($recipe){
+      try {
+        $data =[
+          "recipe_name" => $recipe["recipe_name"],
+          "preparation_steps" => $recipe["preparation_steps"],
+          "tips" => $recipe["tips"],
+          "created_at" => date(Config::DATE_FORMAT),
+          "user_id" => Flight::get('user')['id']
+        ];
+          return parent::add($data);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), 400, $e);
+          }
+      }
+
+
   /* once added,cant be updated
     public function update_preparation_steps($id, $preparation_steps){
       $query = "UPDATE recipes
@@ -36,22 +54,6 @@ class RecipeService extends BaseService{
       $stmt -> execute($params);
     }*/
 
-// CAUSES ERROR
-
-  public function add_recipe($user, $recipe){
-      try {
-      $data =[
-        "recipe_name" => $recipe["recipe_name"],
-        "preparation_steps" => $recipe["preparation_steps"],
-        "tips" => $recipe["tips"],
-        "created_at" => date(Config::DATE_FORMAT),
-        "user_id" => Flight::get('user')[id]
-      ];
-        return parent::add($data);
-      } catch (\Exception $e) {
-          throw new Exception($e->getMessage(), 400, $e);
-        }
-    } 
 
 }
 

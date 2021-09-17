@@ -21,32 +21,33 @@ Flight::route('GET /user/recipes', function(){
 });
 
 /**
- * @OA\Get(path="/user/recipes/@id", tags={"x-user", "recipes"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Get(path="/user/recipes/@id", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of recipe"),
- *     @OA\Response(response="200", description="Fetch individual recipe by category")
+ *     @OA\Response(response="200", description="Fetch individual recipe by id")
  * )
  */
-Flight::route('GET /user/recipes/@id', function($id){
+Flight::route('GET /admin/recipes/@id', function($id){
     Flight::json(Flight::recipeService()->get_recipe_by_id($id));
 });
 
 
 /**
-*  @OA\Post(path="/user/recipes", tags={"x-user", recipes"}, security={{"ApiKeyAuth":{}}},
-*   @OA\RequestBody(description="Add recipe of your own", required=true,
-*     @OA\MediaType(mediaType="application/json",
-*    		@OA\Schema(
-*    		  @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
-*    		  @OA\Property(property="preparation_steps", requierd=true, type="int", example="1-5", description="Steps on how to prepare the recipe"),
-*         @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
-*         )
-*     )
-*      ),
- *  @OA\Response(response="200", description="Recipe has been created.")
+ * @OA\Post(path="/user/recipes", tags={"x-user", "recipes"}, security={{"ApiKeyAuth": {}}},
+ *   @OA\RequestBody(description="Add basic recipe info", required=true,
+ *       @OA\MediaType(mediaType="application/json",
+ *    			@OA\Schema(
+*    		       @OA\Property(property="recipe_name", requierd=true, type="string", example="RecipeName", description="Name of the recipe"),
+*    		       @OA\Property(property="preparation_steps", requierd=true, type="int", example="Preheat the oven to... Prepare the..", description="Step by step guide to making the recipe"),
+*              @OA\Property(property="tips", requierd=true, type="string", example="My tip is to ...", description="Tips and tricks to make the recipe preparation easier")
+ *             )
+ *       )
+ *     ),
+ *  @OA\Response(response="200", description="Saved recipe")
  * )
  */
+// Add not working
 Flight::route('POST /user/recipes', function(){
-  Flight::json(Flight::recipeService()->add_recipe(Flight::get('user'), Flight::request()->data->getData()));
+  Flight::json(Flight::recipeService()->add_recipe(Flight::request()->data->getData()));
 });
 
 /**
@@ -64,7 +65,7 @@ Flight::route('POST /user/recipes', function(){
  *     @OA\Response(response="200", description="Update recipe")
  * )
  */
-
+ //Not needed
 Flight::route('PUT /user/recipes/@id', function($id){
   Flight::json(Flight::recipeService()->update_recipe(Flight::get('user'),$id, Flight::request()->data->getData()));
 });
