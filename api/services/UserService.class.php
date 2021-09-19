@@ -5,7 +5,6 @@ require_once dirname(__FILE__).'/../dao/AccountDao.class.php';
 
 require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
 
-use \Firebase\JWT\JWT;
 
 class UserService extends BaseService{
   private $accountDao;
@@ -70,12 +69,12 @@ class UserService extends BaseService{
 
   if ($db_user['status'] != 'ACTIVE') throw new Exception("User not active", 400);
 
-  $account = $this->accountDao->get_by_id($db_user['account_id']);
-  if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+  //$account = $this->accountDao->get_by_id($db_user['account_id']);
+  //if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
 
   if ($db_user['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
-  $jwt = JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $db_user["id"], "aid" => $db_user["account_id"], "r" => $db_user["role"]], "JWT SECRET");
+  //$jwt = JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $db_user["id"], "aid" => $db_user["account_id"], "r" => $db_user["role"]], "JWT SECRET");
 
   return ["token" => $jwt];
 }

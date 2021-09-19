@@ -41,6 +41,7 @@ class RecipeService extends BaseService{
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), 400, $e);
           }
+          return $recipe;
       }
 
 
