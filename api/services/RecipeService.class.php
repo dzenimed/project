@@ -45,15 +45,15 @@ class RecipeService extends BaseService{
       }
 
 
-  /* once added,cant be updated
-    public function update_preparation_steps($id, $preparation_steps){
+  // once added,cant be updated
+/*    public function update_preparation_steps($id, $preparation_steps){
       $query = "UPDATE recipes
                 SET preparation_steps = :preparation_steps
                 WHERE id = :id";
       $stmt = $this->connection->prepare($query);
       $params=["id" => $id, "preparation_steps" => $preparation_steps];
       $stmt -> execute($params);
-    }*/
+    } */
 
 
 }

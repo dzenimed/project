@@ -20,15 +20,6 @@ Flight::route('GET /user/item', function(){
   Flight::json(Flight::itemService()->get_item($offset, $limit, $search, $order));
 });
 
-/**
- * @OA\Get(path="/item/@id", tags={"item"}, security={{"ApiKeyAuth":{}}},
- *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of item"),
- *     @OA\Response(response="200", description="Fetch individual item by recipe.")
- * )
- */
-Flight::route('GET /item/@id', function($id){
-    Flight::json(Flight::itemService()->get_item_by_id($id));
-});
 
 /**
  * @OA\Get(path="/item/@recipe_id", tags={"item"}, security={{"ApiKeyAuth":{}}},
@@ -64,7 +55,7 @@ Flight::route('POST /item', function(){
 });
 
 /**
- * @OA\Put(path="/user/recipes/{id}", tags={"x-user", "recipes"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Put(path="/user/item/{id}", tags={"x-user", "item"}, security={{"ApiKeyAuth":{}}},
  *  @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1),
  *   @OA\RequestBody(description="Basic recipe info that is going to be updated", required=true,
  *     @OA\MediaType(mediaType="application/json",
@@ -80,13 +71,13 @@ Flight::route('POST /item', function(){
  * )
  */
 
-Flight::route('PUT /user/recipes/@id', function($id){
-  Flight::json(Flight::recipeService()->update_recipe(Flight::get('user'),$id, Flight::request()->data->getData()));
+Flight::route('PUT /user/item/@id', function($id){
+  Flight::json(Flight::itemervice()->update_recipe(Flight::get('user'),$id, Flight::request()->data->getData()));
 });
 
 
 /**
- * @OA\Get(path="/admin/recipes", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/admin/item", tags={"x-admin", "item"}, security={{"ApiKeyAuth": {}}},
  *     @OA\Parameter(type="integer", in="query", name="account_id", default=0, description="Account id"),
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="Limit for pagination"),
@@ -95,28 +86,28 @@ Flight::route('PUT /user/recipes/@id', function($id){
  *     @OA\Response(response="200", description="List email templates for user")
  * )
  */
-Flight::route('GET /admin/recipes', function(){
+Flight::route('GET /admin/item', function(){
   $account_id = Flight::query('account_id');
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
   $search = Flight::query('search');
   $order = Flight::query('order', '-id');
 
-  Flight::json(Flight::recipeService()->get_recipe($account_id, $offset, $limit, $search, $order));
+  Flight::json(Flight::itemervice()->get_recipe($account_id, $offset, $limit, $search, $order));
 });
 
 /**
- * @OA\Get(path="/admin/recipes/{id}", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/admin/item/{id}", tags={"x-admin", "item"}, security={{"ApiKeyAuth": {}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of email template"),
  *     @OA\Response(response="200", description="Fetch individual email template")
  * )
  */
-Flight::route('GET /admin/recipes/@id', function($id){
-  Flight::json(Flight::recipeService()->get_by_id($id));         //TODO: add get_by_id in service class
+Flight::route('GET /admin/item/@id', function($id){
+  Flight::json(Flight::itemervice()->get_by_id($id));         //TODO: add get_by_id in service class
 });
 
 /**
- * @OA\Post(path="/admin/recipes", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Post(path="/admin/item", tags={"x-admin", "item"}, security={{"ApiKeyAuth": {}}},
  *   @OA\RequestBody(description="Basic recipe info", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
@@ -130,12 +121,12 @@ Flight::route('GET /admin/recipes/@id', function($id){
  *  @OA\Response(response="200", description="Saved recipe")
  * )
  */
-Flight::route('POST /admin/recipes', function(){
-  Flight::json(Flight::recipeService()->add(Flight::request()->data->getData()));
+Flight::route('POST /admin/item', function(){
+  Flight::json(Flight::itemervice()->add(Flight::request()->data->getData()));
 });
 
 /**
- * @OA\Put(path="/admin/recipes/{id}", tags={"x-admin", "recipes"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Put(path="/admin/item/{id}", tags={"x-admin", "item"}, security={{"ApiKeyAuth": {}}},
  *   @OA\Parameter(type="integer", in="path", name="id", default=1),
  *   @OA\RequestBody(description="Basic recipe info that is going to be updated", required=true,
  *       @OA\MediaType(mediaType="application/json",
@@ -151,8 +142,8 @@ Flight::route('POST /admin/recipes', function(){
  *     @OA\Response(response="200", description="Update recipe")
  * )
  */
-Flight::route('PUT /admin/recipes/@id', function($id){
-  Flight::json(Flight::recipeService()->update($id, Flight::request()->data->getData()));
+Flight::route('PUT /admin/item/@id', function($id){
+  Flight::json(Flight::itemervice()->update($id, Flight::request()->data->getData()));
 });
 
 ?>
