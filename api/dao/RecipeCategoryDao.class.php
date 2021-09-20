@@ -7,31 +7,34 @@ class  RecipeCategoryDao extends BaseDao{
     parent::__construct("recipecategory");
   }
 
-  public function get_category_by_name($category_name){
-    return $this->query_unique("SELECT * FROM recipecategory WHERE category_name =: category_name", ["category_name"=>$category_name]);
-  }
-/*
-  public function get_all_categories(){
-    return $this->query("SELECT * FROM recipecategory");
-  }*/
 
-  public function get_categories($search, $offset, $limit, $order= '-id'){
+  public function get_categories($offset, $limit, $search, $order, $total=FALSE){
 
     list($order_column, $order_direction) = self::parse_order($order);
+    $params = [];
+    if($total){
+      $query = "SELECT COUNT(*) AS total ";
+    }else{
+      $query = "SELECT * ";
+    }
+    $query .= "FROM recipecategory
+              WHERE 1 = 1 ";
 
-    return $this->query("SELECT * FROM recipecategory
-                        WHERE LOWER(category_description) LIKE CONCAT('%', :category_description, '%')
-                        ORDER BY ${order_column} ${order_direction}
-                        LIMIT ${limit} OFFSET ${offset}",
-                        ["category_description"=>strtolower($search)]);
+    if(isset($search)){
+      $query .= "AND LOWER(category_description) LIKE CONCAT('%', :search, '%') OR LOWER(category_name) LIKE CONCAT('%', :search, '%') ";
+      $params['search'] = strtolower($search);
+    }
+
+    if ($total){
+      return $this->query_unique($query, $params);
+    }else{
+      $query .="ORDER BY ${order_column} ${order_direction} ";
+      $query .="LIMIT ${limit} OFFSET ${offset}";
+
+      return $this->query($query, $params);
+    }
+
   }
-/*
-  public function get_recipe_category($id, $offset, $limit){
-    return $this->query("SELECT * FROM recipecategory
-                        WHERE id = :id
-                        LIMIT ${limit} OFFSET ${offset}",
-                        ["id" => $id]);
-  }
-*/
+  
 }
 ?>
