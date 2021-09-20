@@ -15,7 +15,6 @@ class Items{
     });
     AUtils.role_based_elements();
     Items.get_all();
-  //  EmailTemplate.chart();
   }
 /*
   static chart(){
@@ -87,23 +86,23 @@ class Items{
           return '<div style="min-width: 60px;"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onClick="Items.pre_edit('+data+')"><i clas="fa fa-edit"></i></a> </div>';
         }
       },
-      {"data":"title"},
-      {"data":"description"},
-      {"data":"preparation_time"},
-      {"data":"difficulty_lvl"},
+      {"data":"title" },
+      {"data":"description" },
+      {"data":"preparation_time" },
+      {"data":"difficulty_lvl" },
       {"data":"image_src",
       "render": function ( data, type, row, meta ) {
         return '<img src="'+data+'" alt="Item image" height="500" width="500"/>';
         }
       },
-        {"data":"category_id"},
-        {"data":"recipe_id"}
+        {"data":"category_id" },
+        {"data":"recipe_id" }
       ]
     });
   }
 
   static add(item){
-      RestClient.post("api/item", recipe, function(data){
+      RestClient.post("api/item", item, function(data){
       toastr.success("Item has been created");
       Items.get_all();
       $("#add-items").trigger("reset");
