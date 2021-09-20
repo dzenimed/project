@@ -55,9 +55,24 @@ class  ItemDao extends BaseDao{
       $stmt->execute($params);
     }
 /*
-  public function add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name){
-    return $this->add_item($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name);
-  } */
+    public function add($item, $category_name, $recipe_name){
+      try{
+        $data = [
+         "title" => $item["title"],
+         "description" => $item["description"],
+         "preparation_time" => $item["preparation_time"],
+         "difficulty_lvl" => $item["difficulty_lvl"],
+         "image_src" => $item["image_src"],
+         "category_id" => $this->query("(SELECT id FROM recipecategory WHERE category_name = '".$category_name."')"),
+         "recipe_id" => $this->query("(SELECT id FROM recipes WHERE recipe_name = '".$recipe_name."')")
+           ];
+       return parent::add($data);
+      }catch(\Exception $e){
+       throw new \Exception($e->getMessage(), 400, $e);
+       }
+   }
+   */
+
 
    /* potential way for displaying data using join
 SELECT title, tips, category_name, category_description FROM mydb.item i

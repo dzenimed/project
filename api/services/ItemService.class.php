@@ -21,10 +21,32 @@ class ItemService extends BaseService{
   public function get_item($offset, $limit, $search, $order, $total = FALSE){
     return $this->dao->get_item($offset, $limit, $search, $order, $total);
   }
-/* causes error
+// causes error
   public function add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name){
-    return $this->dao->add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name)
-  }  */
+    return $this->dao->add_item($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name);
+  }
+
+  public function add($item){
+    try{
+      $data = [
+       "title" => $item["title"],
+       "description" => $item["description"],
+       "preparation_time" => $item["preparation_time"],
+       "difficulty_lvl" => $item["difficulty_lvl"],
+       "image_src" => $item["image_src"],
+       "category_id" => $item["category_id"],
+       "recipe_id" => $item["recipe_id"]
+         ];
+     return parent::add($data);
+    }catch(\Exception $e){
+     throw new \Exception($e->getMessage(), 400, $e);
+     }
+ }
+
+/*
+  public function add($item, $category_name, $recipe_name){
+    return $this->dao->add($item, $category_name, $recipe_name);
+  } */
 
 /*
   public function update_item($user, $id, $recipe){
@@ -35,28 +57,6 @@ class ItemService extends BaseService{
     return $this->update($id, $recipe);
   }
   */
-
-/*
-  public function add_item($item){
-      try {
-      $data = [
-        "title" => $item['title'],
-        "description" => $item['description'],
-        "preparation_time" => $item['preparation_time'],
-        "difficulty_lvl" => $item['difficulty_lvl'],
-        "image_src" => $item['image_src'],
-    //    "category_id" => Flight::get('recipecategory')['id'],
-      //  "recipe_id" => Flight::get('recipes')['id']
-      ];
-        return parent::add($data);
-      } catch (Exception $e) {
-  //      if(empty($item['description'])){
-    //      throw new Exception("You must describe the item!", 400, $e);
-      //  }else{
-          throw new Exception($e->getMessage(), 400, $e);
-        }
-      }
-  }*/
 
 }
 
