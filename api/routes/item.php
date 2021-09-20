@@ -67,5 +67,15 @@ Flight::route('GET /item/@id', function($id){
   Flight::json(Flight::itemService()->get_by_id($id));
 });
 
+/**
+* @OA\Get(path="/item/category_name", tags={"item"}, security={{"ApiKeyAuth":{}}},
+*     @OA\Parameter(@OA\Schema(type="string"), in="query", name="category_name", description="Category name you are looking for"),
+*     @OA\Response(response="200", description="List items from database based on their category")
+* )
+*/
+Flight::route('GET /item/category_name', function(){
+  $category_name = Flight::query('category_name');
+//  Flight::json(Flight::itemService()->get_item_sorted_by_category($category_name);
+});
 
 ?>

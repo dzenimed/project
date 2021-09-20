@@ -15,7 +15,8 @@ class  ItemDao extends BaseDao{
  public function get_item_by_recipe_id($recipe_id){
     return $this->query_unique("SELECT * FROM item WHERE recipe_id = :recipe_id", ["recipe_id" => $recipe_id]);
   }
-// CATEGORY DAO
+
+// search item by category name
   public function get_item_sorted_by_category($category_name){
      return $this->query_unique("SELECT title, description, category_name, category_description FROM item i
                                  INNER JOIN recipecategory c ON i.category_id=c.id
@@ -36,7 +37,7 @@ class  ItemDao extends BaseDao{
               WHERE 1 = 1 ";
 
     if(isset($search)){
-      $query .= "AND (LOWER(title) LIKE CONCAT('%', :search, '%') OR LOWER(description) LIKE CONCAT('%', :search, '%')) OR difficulty_lvl = :search OR category_id = :search ";
+      $query .= "AND (LOWER(title) LIKE CONCAT('%', :search, '%') OR LOWER(description) LIKE CONCAT('%', :search, '%')) OR difficulty_lvl = :search ";
       $params['search'] = strtolower($search);
     }
 

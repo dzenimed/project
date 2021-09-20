@@ -22,6 +22,10 @@ class ItemService extends BaseService{
     return $this->dao->get_item($offset, $limit, $search, $order, $total);
   }
 
+  public function get_item_sorted_by_category($category_name){
+    return $this->dao->get_item_sorted_by_category($category_name);
+  }
+
   public function add($item){
     try{
       $data = [
