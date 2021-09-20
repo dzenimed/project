@@ -33,8 +33,14 @@ class  RecipeCategoryDao extends BaseDao{
 
       return $this->query($query, $params);
     }
-
   }
-  
+
+  public function update_description($id, $category_description){
+    $query = "UPDATE recipecategory SET category_description = :category_description WHERE id = :id";
+    $stmt = $this->connection->prepare($query);
+    $params=["id" => $id, "category_description" => $category_description];
+    $stmt->execute($params);
+  }
+
 }
 ?>
