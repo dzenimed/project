@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/RecipeService.class.php';
 require_once dirname(__FILE__).'/services/FeedbackService.class.php';
 require_once dirname(__FILE__).'/services/ItemService.class.php';
+require_once dirname(__FILE__).'/services/RecipeIngredientService.class.php';
 
 
 Flight::set('flight.log_errors', TRUE);
@@ -58,6 +59,7 @@ Flight::register('recipeService', 'RecipeService');
 Flight::register('feedbackService', 'FeedbackService');
 Flight::register('recipeCategoryService', 'RecipeCategoryService');
 Flight::register('itemService', 'ItemService');
+Flight::register('recipeIngredientService', 'RecipeIngredientService');
 
 
 /* include all routes */
@@ -68,6 +70,7 @@ require_once dirname(__FILE__)."/routes/recipes.php";
 require_once dirname(__FILE__)."/routes/recipe_category.php";
 require_once dirname(__FILE__)."/routes/feedback.php";
 require_once dirname(__FILE__)."/routes/item.php";
+require_once dirname(__FILE__)."/routes/recipe_ingredients.php";
 
 Flight::start();
 

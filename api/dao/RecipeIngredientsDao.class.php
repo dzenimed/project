@@ -4,34 +4,35 @@ require_once dirname(__FILE__)."/BaseDao.class.php";
 class RecipeIngredientsDao extends BaseDao{
 
   public function __construct(){
-    parent::__construct("recipe_ingredients");
+    parent::__construct("ingredients");
   }
 
-  public function get_recipeIngredients($account_id, $offset, $limit, $search, $order){
-      list($order_column, $order_direction) = self::parse_order($order);
-      $params = [];
-      $query = "SELECT r.*, i.ingredient_name AS ingredient_name, mq.quantity_amount AS quantity_amount, mu.measuremenr_description
-                FROM recipe_ingredients r JOIN
-                     ingredients i ON i.id = r.ingredient_id JOIN
-                     measurement_qty mq ON mq.id = r.measurement_qty_id
-                     JOIN measurement_units mu ON mu.id = r.measurement_id
-                WHERE 1 = 1 ";
 
-      if ($ingredient_id){
-        $params["ingredient_id"] = ingredient_id;
-        $query .= "AND r.ingredient_id = :ingredient_id ";
-      }
+  public function get_ingredients($offset, $limit, $search, $order, $total=FALSE){
+    list($order_column, $order_direction) = self::parse_order($order);
+    $params = [];
+    if ($total){
+      $query = "SELECT COUNT(*) AS total ";
+    }else{
+      $query = "SELECT * ";
+    }
+    $query .= "FROM ingredients
+               WHERE 1 = 1 ";
 
-      if (isset($search)){
-        $query .= "AND ( LOWER(i.ingredient_name) LIKE CONCAT('%', :search, '%')) " ;
-        $params['search'] = strtolower($search);
-      }
+    if (isset($search)){
+      $query .= "AND ( LOWER(ingredient_name) LIKE CONCAT('%', :search, '%'))";
+      $params['search'] = strtolower($search);
+    }
 
-      $query .="ORDER BY ${order_column} ${order_direction} ";
+    if ($total){
+      return $this->query_unique($query, $params);
+    }else{
+      $query .="GROUP BY recipe_id ORDER BY ${order_column} ${order_direction} ";
       $query .="LIMIT ${limit} OFFSET ${offset}";
 
       return $this->query($query, $params);
     }
+  }
 
 }
 ?>
