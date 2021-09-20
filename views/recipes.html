@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Recipes</h1>
+                <h1 class="page-header">Items</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -22,12 +22,13 @@
                       <thead>
                           <tr>
                               <th>ID</th>
-                              <th>Recipe Name</th>
-                              <th>Difficulty level</th>
+                              <th>Title</th>
                               <th>Description</th>
-              <!--                <th>Ingridients List</th>
-                              <th>Measurements</th>  -->
-                              <th>Tips</th>
+                              <th>Preparation time</th>
+                              <th>Difficulty level</th>
+                              <th>Image</th>
+                              <th>Category ID</th>
+                              <th>Recipe ID</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -53,32 +54,36 @@
             <input type="hidden" name="id"/>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Add recipe</h4>
+                <h4 class="modal-title" id="myModalLabel">Add item</h4>
             </div>
             <div class="modal-body">
                   <div class="form-group">
-                      <label>Recipe Name</label>
-                      <input type="text" name="recipe_name" class="form-control" placeholder="Enter the recipe name of your choice" required minlength="3">
-                  </div>
-                  <div class="form-group">
-                      <label>Recipe difficulty level</label>
-                      <input type="number" name="recipe_difficulty_level" class="form-control" placeholder="Enter the difficulty level 1-5" required>
+                      <label>Item title</label>
+                      <input type="text" name="title" class="form-control" placeholder="Enter the item name of your choice" required minlength="3">
                   </div>
                   <div class="form-group">
                       <label>Description</label>
                       <textarea name="description" class="form-control" rows="10" required></textarea>
                   </div>
-        <!--         <div class="form-group">
-                      <label>Ingredients List</label>
-                      <textarea name="ingredients_list" class="form-control" rows="4" required></textarea>
+                  <div class="form-group">
+                      <label>Preparation time</label>
+                      <textarea name="preparation_time" class="form-control" rows="10" required></textarea>
                   </div>
                   <div class="form-group">
-                      <label>Measurements</label>
-                      <textarea name="measurements" class="form-control" rows="3" required></textarea>
-                  </div> -->
+                      <label>Recipe difficulty level</label>
+                      <input type="number" name="difficulty_lvl" class="form-control" placeholder="Enter the difficulty level 1-5 (1-easy, 5-hard)" required>
+                  </div>
                   <div class="form-group">
-                      <label>Any Tips?</label>
-                      <textarea name="tips" class="form-control" rows="10"></textarea>
+                      <label>Image source</label>
+                      <textarea name="image_src" class="form-control" rows="10" required></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Category ID</label>
+                      <input type="number" name="category_id" class="form-control" placeholder="Enter the category ID" required>
+                  </div>
+                  <div class="form-group">
+                      <label>Recipe ID</label>
+                      <input type="number" name="recipe_id" class="form-control" placeholder="Enter the recipe ID" required>
                   </div>
 
             </div>
