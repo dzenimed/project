@@ -36,6 +36,7 @@ class Items{
       serverSide : true,           //data is loaded from server
       bDestroy: true,             // refresh table once data is added
       pagingType : "simple",     // organization of buttons in lower corner
+      responsive: true,
       preDrawCallback: function(settings){
         if(settings.aoData.length < settings._iDisplayLength){
           // disable pagination
@@ -48,8 +49,6 @@ class Items{
         }
       },
 
-      responsive: true,
-
       language: {
         "zeroRecords":"Nothing found - sorry",
         "info": "Showing page _PAGE_",
@@ -58,11 +57,14 @@ class Items{
       },
 
       ajax : {                                                   // fetch data from server
-        url: "api/item?order="+encodeURIComponent("+id"),
+        url: "api/item",       //?order="+encodeURIComponent("+id")
         type: "GET",
-        beforeSend: function(xhr){
+/*        beforeSend: function(xhr){
           xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
-        },
+        }, */
+    /*    dataSrc: function(resp){
+          return resp;
+        }, */
         data: function(d){                          // map data table parameters into our API parameters
           d.offset=d.start;
           d.limit=d.length;
@@ -79,7 +81,7 @@ class Items{
           console.log(d);
         }
       },
-      columnns: [                                  //columns descriptor: used to read objects from the data source based on column names
+      columns: [                                  //columns descriptor: used to read objects from the data source based on column names
       {"data":"id",
         "render": function(data, type, row, meta){
           return '<div style="min-width: 60px;"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onClick="Items.pre_edit('+data+')"><i clas="fa fa-edit"></i></a> </div>';
@@ -89,9 +91,13 @@ class Items{
       {"data":"description"},
       {"data":"preparation_time"},
       {"data":"difficulty_lvl"},
-      {"data":"image_src"},
-      {"data":"category_id"},
-      {"data":"recipe_id"}
+      {"data":"image_src",
+      "render": function ( data, type, row, meta ) {
+        return '<img src="'+data+'" alt="Item image" height="500" width="500"/>';
+        }
+      },
+        {"data":"category_id"},
+        {"data":"recipe_id"}
       ]
     });
   }
