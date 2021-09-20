@@ -7,7 +7,7 @@ class  FeedbackDao extends BaseDao{
     parent::__construct("feedback");
   }
 
-  protected function getFeedback($id){
+  protected function get_feedback_by_id($id){
     return $this->query_unique("SELECT * FROM feedback WHERE id=:id", ["id" => $id]);
   }
 
@@ -15,7 +15,7 @@ class  FeedbackDao extends BaseDao{
     list($order_column, $order_direction) = self::parse_order($order);
 
     $params = [];
-    $query = "SELECT f.*, a.username AS account_username, r.recipe_name AS recipe_name *
+    $query = "SELECT f.title,  f.text,  f.date_created, a.username AS account_username, r.recipe_name AS recipe_name
                             FROM feedback f JOIN
                             accounts a ON a.id = f.account_id JOIN
                             recipes r ON r.id = f.recipe_id
@@ -27,8 +27,7 @@ class  FeedbackDao extends BaseDao{
     }
 
     if(isset($search)){
-      $query .= "AND (LOWER(f.title)) LIKE CONCAT('%', :search, '%') OR
-                     (LOWER(a.username)) LIKE CONCAT('%', :search, '%') OR
+      $query .= "AND (LOWER(a.username)) LIKE CONCAT('%', :search, '%') OR
                      (LOWER(r.recipe_name)) LIKE CONCAT('%', :search, '%')";
       $params['search'] = strtolower($search);
     }
