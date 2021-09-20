@@ -15,6 +15,13 @@ class  ItemDao extends BaseDao{
  public function get_item_by_recipe_id($recipe_id){
     return $this->query_unique("SELECT * FROM item WHERE recipe_id = :recipe_id", ["recipe_id" => $recipe_id]);
   }
+// CATEGORY DAO
+  public function get_item_sorted_by_category($category_name){
+     return $this->query_unique("SELECT title, description, category_name, category_description FROM item i
+                                 INNER JOIN recipecategory c ON i.category_id=c.id
+                                 WHERE category_name LIKE CONCAT('%', :category_name, '%');", ["category_name" => $category_name]);
+   }
+
 
   public function get_item($offset, $limit, $search, $order, $total=FALSE){
     list($order_column, $order_direction) = self::parse_order($order);
@@ -48,12 +55,13 @@ class  ItemDao extends BaseDao{
                   VALUES ( ".$title.", '".$description."', '".$preparation_time."', '".$difficulty_lvl."', '".$image_src."',
                   (SELECT id FROM mydb.recipes WHERE recipe_name = '".$recipe_name."'),
                   (SELECT id FROM mydb.recipecategory WHERE category_name = '".$category_name."') );";
+                  $stmt= $this->connection->prepare($query);
 
-      $stmt= $this->connection->prepare($query);
       $params=["title" => $title, "description" => $description, "preparation_time" => $preparation_time, "difficulty_lvl" => $difficulty_lvl,
       "image_src" => $image_src, "recipe_name" => $recipe_id, "category_name" => $category_id];
       $stmt->execute($params);
     }
+
 /*
     public function add($item, $category_name, $recipe_name){
       try{

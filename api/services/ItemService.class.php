@@ -21,10 +21,6 @@ class ItemService extends BaseService{
   public function get_item($offset, $limit, $search, $order, $total = FALSE){
     return $this->dao->get_item($offset, $limit, $search, $order, $total);
   }
-// causes error
-  public function add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name){
-    return $this->dao->add_item($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name);
-  }
 
   public function add($item){
     try{
@@ -43,20 +39,10 @@ class ItemService extends BaseService{
      }
  }
 
-/*
-  public function add($item, $category_name, $recipe_name){
-    return $this->dao->add($item, $category_name, $recipe_name);
-  } */
-
-/*
-  public function update_item($user, $id, $recipe){
-    $db_recipe = $this->dao->get_by_id($id);
-    if ($db_recipe['account_id'] != $user['aid']){
-      throw new Exception("Invalid recipe", 403);
-    }
-    return $this->update($id, $recipe);
-  }
-  */
+ // causes error
+/*   public function add_i($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name){
+     return $this->dao->add_item($title, $description, $preparation_time, $difficulty_lvl, $image_src, $recipe_name, $category_name);
+   } */
 
 }
 
