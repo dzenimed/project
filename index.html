@@ -94,7 +94,7 @@
                                 <a href="#recipeIngredients"><i class="fa fa-list fa-fw"></i> Recipe Ingredients</a>
                             </li>
                             <li>
-                                <a href="#recipes"><i class="fa fa-book-reader fa-fw"></i> Recipes</a>
+                                <a href="#items"><i class="fa fa-book-reader fa-fw"></i> Items</a>
                             </li>
                             <li>
                                 <a href="#feedback"><i class="fa fa-table fa-fw"></i>Feedback</a>
@@ -118,7 +118,7 @@
               <section id="recipeIngredients" data-load="recipeIngredients.html" ></section>
               <section id="feedback" data-load="feedback.html" ></section>
               <section id="settings" data-load="settings.html" ></section>
-              <section id="recipes" data-load="recipes.html" ></section>
+              <section id="items" data-load="item.html" ></section>
 
 
             </main>
@@ -163,7 +163,7 @@
         <script type="text/javascript">
           $(document).ready(function() {
             var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
-            app.route({view : "recipes", load : "recipes.html", onReady: function() { Recipes.init() }});
+            app.route({view : "items", load : "item.html", onReady: function() { Recipes.init() }}); // HERE items
             // $('body').show(); if guest will be also included
 
             // run app

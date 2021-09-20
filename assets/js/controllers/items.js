@@ -1,20 +1,20 @@
-class Recipes{
+class Items{
 
   static init(){
-    $("#add-recipes").validate({
+    $("#add-items").validate({
      submitHandler: function(form, event) {
        event.preventDefault();
        var data = AUtils.form2json($(form));
 
        if(data.id){
-         Recipes.update(data);
+         Items.update(data);
        }else{
-         Recipes.add(data);
+         Items.add(data);
        }
      }
     });
     AUtils.role_based_elements();
-    Recipes.get_all();
+    Items.get_all();
   //  EmailTemplate.chart();
   }
 /*
@@ -31,7 +31,7 @@ class Recipes{
   }
 */
   static get_all(){
-    $("#recipes-table").DataTable({
+    $("#items-table").DataTable({
       processing : true,            // pop-up
       serverSide : true,           //data is loaded from server
       bDestroy: true,             // refresh table once data is added
@@ -58,7 +58,7 @@ class Recipes{
       },
 
       ajax : {                                                   // fetch data from server
-        url: "api/user/recipes?order="+encodeURIComponent("+id"),
+        url: "api/item?order="+encodeURIComponent("+id"),
         type: "GET",
         beforeSend: function(xhr){
           xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
@@ -82,30 +82,30 @@ class Recipes{
       columnns: [                                  //columns descriptor: used to read objects from the data source based on column names
       {"data":"id",
         "render": function(data, type, row, meta){
-          return '<div style="min-width: 60px;"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onClick="Recipes.pre_edit('+data+')"><i clas="fa fa-edit"></i></a> </div>';
+          return '<div style="min-width: 60px;"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onClick="Items.pre_edit('+data+')"><i clas="fa fa-edit"></i></a> </div>';
         }
       },
-      {"data":"recipe_name"},
-      {"data":"recipe_difficulty_level"},
+      {"data":"title"},
       {"data":"description"},
-    //  {"data":"ingredients_list"},
-  //    {"data":"measurements"},
-      {"data":"tips"},
-      {"data":"created_at"}
+      {"data":"preparation_time"},
+      {"data":"difficulty_lvl"},
+      {"data":"image_src"},
+      {"data":"category_id"},
+      {"data":"recipe_id"}
       ]
     });
   }
 
-  static add(email_template){
-      RestClient.post("api/user/recipes", recipe, function(data){
-      toastr.success("Recipe has been created");
-      Recipes.get_all();
-      $("#add-recipes").trigger("reset");
-      $("#add-recipe-modal").modal("hide");
+  static add(item){
+      RestClient.post("api/item", recipe, function(data){
+      toastr.success("Item has been created");
+      Items.get_all();
+      $("#add-items").trigger("reset");
+      $("#add-items-modal").modal("hide");
     });
   }
 
-  static update(email_template){
+/*  static update(item){
     RestClient.put("api/user/recipes/"+recipe.id, recipe, function(data){
     toastr.success("Recipe has been updated");
     Recipes.get_all();
@@ -113,12 +113,12 @@ class Recipes{
     $("#add-recipe *[name='id']").val("");
     $("#add-recipe-modal").modal("hide");
   });
-  }
+} */
 
   static pre_edit(id){
-    RestClient.get("api/user/recipes/"+id, function(data){
-     AUtils.json2form("#add-recipe", data);
-     $("#add-recipe-modal").modal("show");
+    RestClient.get("api/item/"+id, function(data){
+     AUtils.json2form("#add-items", data);
+     $("#add-items-modal").modal("show");
    });
   }
 
